@@ -4,8 +4,11 @@ class Page
   def initialize(name, rev=nil)
     @name = name
     @rev = rev
-    @filename = File.join(GIT_REPO, @name)
     @attach_dir = File.join(GIT_REPO, '_attachments', unwiki(@name))
+  end
+
+  def filename
+    @filename ||= File.join(GIT_REPO, @name)
   end
 
   # TODO: Get rid of this.
