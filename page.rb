@@ -1,14 +1,18 @@
 class Page
-  attr_reader :name, :attach_dir
+  attr_reader :name
+  ATTACHMENTS_DIR = '_attachments'
 
-  def initialize(name, rev=nil)
+  def initialize(name, rev = nil)
     @name = name
     @rev = rev
-    @attach_dir = File.join(GIT_REPO, '_attachments', unwiki(@name))
   end
 
   def filename
     @filename ||= File.join(GIT_REPO, @name)
+  end
+
+  def attach_dir
+    @attach_dir ||= File.join(GIT_REPO, ATTACHMENTS_DIR, unwiki(@name))
   end
 
   # TODO: Get rid of this.
@@ -32,12 +36,12 @@ class Page
     if @rev
        @raw_body ||= blob.contents
     else
-      @raw_body ||= File.exists?(@filename) ? File.read(@filename) : ''
+      @raw_body ||= File.exists?(filename) ? File.read(filename) : ''
     end
   end
 
   def update(content, message=nil)
-    File.open(@filename, 'w') { |f| f << content }
+    File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
     begin
@@ -101,8 +105,8 @@ class Page
     else
       filename = file[:filename]
     end
-    FileUtils.mkdir_p(@attach_dir) if !File.exists?(@attach_dir)
-    new_file = File.join(@attach_dir, filename)
+    FileUtils.mkdir_p(attach_dir) if !File.exists?(attach_dir)
+    new_file = File.join(attach_dir, filename)
 
     f = File.new(new_file, 'w')
     f.write(file[:tempfile].read)
@@ -118,7 +122,7 @@ class Page
   end
 
   def delete_file(file)
-    file_path = File.join(@attach_dir, file)
+    file_path = File.join(attach_dir, file)
     if File.exists?(file_path)
       File.unlink(file_path)
 
@@ -134,8 +138,8 @@ class Page
   end
 
   def attachments
-    if File.exists?(@attach_dir)
-      return Dir.glob(File.join(@attach_dir, '*')).map { |f| Attachment.new(f, unwiki(@name)) }
+    if File.exists?(attach_dir)
+      return Dir.glob(File.join(attach_dir, '*')).map { |f| Attachment.new(f, unwiki(@name)) }
     else
       false
     end
@@ -152,6 +156,7 @@ class Page
       File.basename(@path)
     end
 
+    # TODO: check if the singular "_attachment" is correct
     def link_path
       File.join('/_attachment', @page_name, name)
     end
