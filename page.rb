@@ -21,7 +21,7 @@ class Page
   end
 
   def body
-    @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
+    @body ||= RubyPants.new(BlueCloth.new(raw_body).to_html).to_html.wiki_linked
   end
 
   def branch_name
@@ -91,7 +91,7 @@ class Page
 
   def version(rev)
     data = blob.contents
-    RubyPants.new(RedCloth.new(data).to_html).to_html.wiki_linked
+    RubyPants.new(BlueCloth.new(data).to_html).to_html.wiki_linked
   end
 
   def blob
@@ -156,7 +156,7 @@ class Page
       File.basename(@path)
     end
 
-    # TODO: check if the singular "_attachment" is correct
+    # TODO: check if the singular "_attachment "is correct
     def link_path
       File.join('/_attachment', @page_name, name)
     end
