@@ -2,7 +2,7 @@
 
 require 'fileutils'
 require 'environment'
-require 'sinatra/lib/sinatra'
+require 'sinatra'
 
 get('/') { redirect "/#{HOMEPAGE}" }
 
@@ -61,7 +61,7 @@ end
 get '/a/list' do
   pages = $repo.log.first.gtree.children
   @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
-  show(:list, 'Listing pages')  
+  show(:list, 'Listing pages')
 end
 
 get '/a/patch/:page/:rev' do
@@ -94,7 +94,7 @@ get '/a/history' do
 end
 
 get '/a/revert_branch/:sha' do
-  $repo.with_temp_index do 
+  $repo.with_temp_index do
     $repo.read_tree params[:sha]
     $repo.checkout_index
     $repo.commit('reverted branch')
@@ -117,7 +117,7 @@ post '/a/new_branch' do
   $repo.checkout(params[:branch])
   if params[:type] == 'blank'
     # clear out the branch
-    $repo.chdir do 
+    $repo.chdir do
       Dir.glob("*").each do |f|
         File.unlink(f)
         $repo.remove(f)
