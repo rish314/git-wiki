@@ -7,19 +7,20 @@ class Page
     @filename = File.join(GIT_REPO, @name)
     @attach_dir = File.join(GIT_REPO, '_attachments', unwiki(@name))
   end
-  
+
+  # TODO: Get rid of this.
   def unwiki(string)
     string.downcase
   end
 
   def body
-    @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html.wiki_linked
+    @body ||= RubyPants.new(RedCloth.new(raw_body).to_html).to_html
   end
-  
+
   def branch_name
     $repo.current_branch
   end
-  
+
   def updated_at
     commit.committer_date rescue Time.now
   end
@@ -34,12 +35,12 @@ class Page
 
   def update(content, message=nil)
     File.open(@filename, 'w') { |f| f << content }
-    commit_message = tracked? ? "edited #{@name}" : "created #{@name}" 
+    commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
     begin
       $repo.add(@name)
       $repo.commit(commit_message)
-    rescue 
+    rescue
       nil
     end
     @body = nil; @raw_body = nil
@@ -58,7 +59,7 @@ class Page
   def delta(rev)
     $repo.diff(previous_commit, rev).path(@name).patch
   end
-  
+
   def commit
     @commit ||= $repo.log.object(@rev || 'master').path(@name).first
   end
@@ -76,7 +77,7 @@ class Page
         history.each_with_index { |c, i| matching_index = i if c.sha == self.commit.sha }
         @next_commit ||= history.to_a[matching_index - 1]
       end
-    rescue 
+    rescue
       @next_commit ||= nil
     end
   end
@@ -89,7 +90,7 @@ class Page
   def blob
     @blob ||= ($repo.gblob(@rev + ':' + @name))
   end
-  
+
   # save a file into the _attachments directory
   def save_file(file, name = '')
     if name.size > 0
@@ -103,16 +104,16 @@ class Page
     f = File.new(new_file, 'w')
     f.write(file[:tempfile].read)
     f.close
-        
+
     commit_message = "uploaded #{filename} for #{@name}"
     begin
       $repo.add(new_file)
       $repo.commit(commit_message)
-    rescue 
+    rescue
       nil
     end
   end
-  
+
   def delete_file(file)
     file_path = File.join(@attach_dir, file)
     if File.exists?(file_path)
@@ -122,13 +123,13 @@ class Page
       begin
         $repo.remove(file_path)
         $repo.commit(commit_message)
-      rescue 
+      rescue
         nil
       end
-      
+
     end
   end
-  
+
   def attachments
     if File.exists?(@attach_dir)
       return Dir.glob(File.join(@attach_dir, '*')).map { |f| Attachment.new(f, unwiki(@name)) }
@@ -136,14 +137,14 @@ class Page
       false
     end
   end
-  
+
   class Attachment
     attr_accessor :path, :page_name
     def initialize(file_path, name)
       @path = file_path
       @page_name = name
     end
-    
+
     def name
       File.basename(@path)
     end
@@ -174,5 +175,5 @@ class Page
       end.sub(/([0-9])\.?0+ /, '\1 ' )
     end
   end
-  
+
 end
