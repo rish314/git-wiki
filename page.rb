@@ -34,7 +34,7 @@ class Page
 
   def raw_body
     if @rev
-       @raw_body ||= blob.contents
+      @raw_body ||= blob.contents
     else
       @raw_body ||= File.exists?(filename) ? File.read(filename) : ''
     end
