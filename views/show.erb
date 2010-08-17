@@ -14,7 +14,7 @@
   });
 </script>
 
-<h1><%= @page.name %></h1>
+<h1><%= @page.name.gsub('_', ' ') %></h1>
 
 <div class="sub_nav">
   <% if params[:rev] %>
