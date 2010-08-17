@@ -21,7 +21,7 @@ class Page
   end
 
   def body
-    @body ||= RubyPants.new(BlueCloth.new(raw_body).to_html).to_html.wiki_linked
+    @body ||= RubyPants.new(BlueCloth.new(raw_body.wiki_linked).to_html).to_html
   end
 
   def branch_name
@@ -91,7 +91,7 @@ class Page
 
   def version(rev)
     data = blob.contents
-    RubyPants.new(BlueCloth.new(data).to_html).to_html.wiki_linked
+    RubyPants.new(BlueCloth.new(data.wiki_linked).to_html).to_html
   end
 
   def blob
