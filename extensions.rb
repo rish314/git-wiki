@@ -15,6 +15,7 @@ class String
   # matches [[Texas|Lone Star state]] just like wikipedia and unlike gollum (gollum reverses the order of things)
   COMPLEX_WIKI_LINK = /\[\[([\w\s]+)\|([\w\s]+)\]\]/
   def wiki_linked
+    replace_uri!
 #     self.gsub!(/(?!<nowiki>)(?>\b((?:[A-Z]\w+){2,}))(?!<\/nowiki>)/) { |m| "<a href=\"/#{m}\">#{m}</a>" }
 #     self.gsub!(/<\/?nowiki>/,'')
     self.gsub!(SIMPLE_WIKI_LINK) do
@@ -30,6 +31,15 @@ class String
 
   def as_wiki_link
     self.gsub(/\+/, ' plus ').gsub(/\*/, ' times ').gsub(/\s/, '_')
+  end
+
+  def replace_uri!
+    self.gsub!(URI.regexp) do
+      s = $&
+      puts s.inspect
+      '<a href="/%s">%s</a>' % [s, s]
+    end
+    self
   end
 end
 
