@@ -37,7 +37,7 @@ class String
     self.gsub!(URI.regexp) do
       s = $&
       puts s.inspect
-      '<a href="/%s">%s</a>' % [s, s]
+      '<a href="%s">%s</a>' % [s, s]
     end
     self
   end
