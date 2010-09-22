@@ -137,6 +137,12 @@ end
 
 get '/a/search' do
   @search = params[:search]
+  pagenames = $repo.log.first.gtree.children.keys
+  @titles = {}
+  pagenames.select { |page| page.include? @search }.each do |page|
+    current_branch_sha1 = $repo.log.first
+    @titles["#{current_branch_sha1}:#{page}"] = page.map {|page| [0, page] }
+  end
   @grep = $repo.grep(@search)
   show :search, 'Search Results'
 end
