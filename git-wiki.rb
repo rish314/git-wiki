@@ -137,6 +137,10 @@ end
 
 get '/a/search' do
   @search = params[:search]
+#   @grep = $repo.ls_files.select do |file|
+#     puts file.inspect
+#     file.first.gsub('_', ' ').include?(@search)
+#   end.map {|x| x.first }
   @grep = $repo.grep(@search)
   show :search, 'Search Results'
 end
@@ -175,7 +179,7 @@ private
 
   def show(template, title)
     @title = title
-    erb(template)
+    erb(("#{template}.html").to_sym)
   end
 
   def touchfile

@@ -1,8 +1,8 @@
 <h1>Attach File</h1>
 
-<div class="content">
+<section>
   <h2>New File Upload</h2>
-  <form method="post" action="/a/file/upload/<%= @page.name %>" 
+  <form method="post" action="/a/file/upload/<%= @page.name %>"
         class="niceform" enctype="multipart/form-data">
     <label for="name">name</label>
     <input type="text" name="name" />
@@ -13,5 +13,4 @@
     <label for="submit"></label>
     <input type="submit" value="upload" class="submit" />
   </form>
-</div>
-
+</section>
