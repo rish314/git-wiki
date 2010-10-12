@@ -6,15 +6,17 @@ header, nav, article, section, footer, figure, aside { display: block; }
 
 body {
   background-color: #fff;
-  color: #333;
-  font-family: Helvetica, Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
-  font-size: .95em;
+  color: #444;
+  font-family: "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
+/*   font-family: 'lucida grande', tahoma, verdana, arial, sans-serif */
+  font-size: 13px;
   line-height: 1.6em;
-  margin: 2em;
+  margin: 2em auto;
+  width: 70%
 }
 
-a { color: #6d7fa3; text-decoration: none; }
-  a:visited { color: #7b69b0; }
+a { color: #1a82bf; text-decoration: none; }
+  a:visited { color: #0e4061; }
   a:hover { text-decoration: underline; }
 
 code, pre { font-family: "Deja Vu Sans Mono", "Bitstream Vera Sans Mono", "Inconsolata", "Consolas", monospace; }
@@ -76,30 +78,18 @@ article .content {
   min-width: 100%;
 }
 
-.nav_link, .nav_link:visited {
-  display: inline;
-  padding: 3px;
-  color: #666;
-}
+header nav a { display: inline; padding: 1px 6px; border-radius: 2px; }
+  header nav a:hover { background-color: #f0f0f0; color: #1a82bf; text-decoration: none; }
 
-.nav_link:hover {
-  background-color: #d1ccdb;
-  color: #333;
-  text-decoration: none;
-}
-
-.nav_list, #footer {
+/*header, #footer {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   list-style-type: none;
   padding: 4px;
   text-align: right;
-}
+}*/
 
-.nav_list li {
-  display: inline;
-  padding-right: 10px;
-}
+
 
 .niceform label, .niceform input[type=text] {
   display: block;
@@ -138,6 +128,7 @@ article aside {
   float: right;
   padding: 0.5em;
   background: #f0f0f0;
+  border-radius: 3px;
 }
 
 article aside .details {
@@ -157,12 +148,6 @@ div.attach-options {
 }
 /* ids */
 
-#container {
- clear: both;
- margin: auto;
- width: 70%;
-}
-
 #edit_textarea {
   height: 35em;
   margin-top: 1.5em;
@@ -173,14 +158,13 @@ div.attach-options {
   width: 100%;
 }
 
-header,
-footer {
+header, footer {
   clear: both;
   border-top: 1px solid #B3915D; border-bottom: 1px solid #B3915D;
   text-align: right;
   padding: 4px;
 }
-footer a, footer a:visited { color: #666; }
+/* footer a, footer a:visited { color: #666; } */
 
 #search_field {
   border: 1px solid #ccc;
