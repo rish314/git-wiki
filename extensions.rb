@@ -10,36 +10,44 @@ end
 
 class String
 
+
+  # Pre-formatted code blocks are used for writing about programming or markup source code. Rather than forming normal paragraphs, the lines of a code block are interpreted literally. Markdown wraps a code block in both <pre> and <code> tags.
+  # To produce a code block in Markdown, simply indent every line of the block by at least 4 spaces or 1 tab. For example, given this input:
+  MARKDOWN_PRE = /^\ {4}|\t/
+
   # matches [[Page]] or even [[a page]] just like in wikipedia and gollum
-  SIMPLE_WIKI_LINK = /\[\[([\w\s\+\-\_]+)\]\]/
+  GIT_WIKI_SIMPLE_LINK = /\[\[([\w\s\+\-\_]+)\]\]/
   # matches [[Texas|Lone Star state]] just like wikipedia and unlike gollum (gollum reverses the order of things)
-  COMPLEX_WIKI_LINK = /\[\[([\w\s]+)\|([\w\s]+)\]\]/
+  GIT_WIKI_COMPLEX_LINK = /\[\[([\w\s]+)\|([\w\s]+)\]\]/
+  # replace things that are obviously meant to be a url.
+  # http(s) or ftp or file then a colon and then some number of slashes, numbers, chars, question marks, dots (very important)...
+  # far from perfect, good enough for now.
+  GIT_WIKI_OBVIOUS_URI = /(https?|ftps?|file)\:[\/\\\w\d\/\-\+\?\&\.\_\@\%\&\*\~]+/
+
   def wiki_linked
-    replace_uri!
-#     self.gsub!(/(?!<nowiki>)(?>\b((?:[A-Z]\w+){2,}))(?!<\/nowiki>)/) { |m| "<a href=\"/#{m}\">#{m}</a>" }
-#     self.gsub!(/<\/?nowiki>/,'')
-    self.gsub!(SIMPLE_WIKI_LINK) do
-      s = $1
-      '<a href="/%s">%s</a>' % [s.as_wiki_link, s]
+    with_links = ""
+    self.each_line do |line|
+      # skip the lines that contain <pre> text (code)
+      unless line =~ MARKDOWN_PRE
+        # self.gsub!(/(?!<nowiki>)(?>\b((?:[A-Z]\w+){2,}))(?!<\/nowiki>)/) { |m| "<a href=\"/#{m}\">#{m}</a>" }
+        # self.gsub!(/<\/?nowiki>/,'')
+        line.gsub!(GIT_WIKI_SIMPLE_LINK) do
+          s = $1
+          '[%s](/%s)' % [s, s.as_wiki_link]
+        end
+        line.gsub!(GIT_WIKI_COMPLEX_LINK) do
+          link, text = $1, $2
+          '[%s](/%s)' % [text, link.as_wiki_link]
+        end
+        line.gsub!(GIT_WIKI_OBVIOUS_URI) { '<%s>' % $& }
+      end
+      with_links << line
     end
-    self.gsub!(COMPLEX_WIKI_LINK) do
-      link, text = $1, $2
-      '<a href="/%s">%s</a>' % [link.as_wiki_link, text]
-    end
-    self
+    with_links
   end
 
   def as_wiki_link
     self.gsub(/\+/, ' plus ').gsub(/\*/, ' times ').gsub(/\s/, '_')
-  end
-
-  def replace_uri!
-    self.gsub!(URI.regexp) do
-      s = $&
-      puts s.inspect
-      '<a href="%s">%s</a>' % [s, s]
-    end
-    self
   end
 end
 
