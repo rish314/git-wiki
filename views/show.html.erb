@@ -1,19 +1,3 @@
-<script type="text/javascript">
-  $(document).ready(function() {
-    $("article .content").editable('/eip/<%= @page.name %>', {
-      indicator: "saving...",
-      tooltip: 'double-click to edit...',
-      cancel: 'cancel',
-      submit: 'save',
-      event: 'dblclick',
-      cssclass: 'edit',
-      loadurl: '/<%= @page.name %>/raw',
-      type: 'textarea',
-      name: 'body'
-    });
-  });
-</script>
-
 <article>
 
   <aside>
@@ -22,13 +6,10 @@
     <% else %>
       <a href="/e/<%= @page.name %>" class="nav_link">edit</a> &bull;
     <% end %>
-
     <a href="/h/<%= @page.name %>" class="nav_link">history</a>
-
     <% if @page.previous_commit %>
       &bull; <a href="/h/<%= @page.name %>/<%= @page.previous_commit %>" class="nav_link">older</a>
     <% end %>
-
     <% if @page.next_commit %>
       &bull; <a href="/h/<%= @page.name %>/<%= @page.next_commit %>" class="nav_link">newer</a>
     <% end %>
