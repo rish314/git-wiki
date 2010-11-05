@@ -9,6 +9,7 @@ get('/') { redirect "/#{HOMEPAGE}" }
 # page paths
 
 get '/:page' do
+  @menu = Page.new("menu")
   @page = Page.new(params[:page])
   @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
 end
@@ -25,11 +26,13 @@ get '/:page/append' do
 end
 
 get '/e/:page' do
+  @menu = Page.new("menu")
   @page = Page.new(params[:page])
   show :edit, "Editing #{@page.name}"
 end
 
 post '/e/:page' do
+  @menu = Page.new("menu")
   @page = Page.new(params[:page])
   @page.update(params[:body], params[:message])
   redirect '/' + @page.name
