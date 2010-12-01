@@ -139,12 +139,13 @@ post '/a/new_remote' do
 end
 
 get '/a/search' do
+  @menu = Page.new("menu")
   @search = params[:search]
   @titles = search_on_filename(@search)
   @grep = $repo.grep(@search)
   [@titles, @grep].each do |x|
     puts x.inspect
-    x.values.each {|v| v.each { |w| w.last.gsub!(@search, "<mark>#{@search}</mark>") } }
+    x.values.each {|v| v.each { |w| w.last.gsub!(@search, "<mark>#{escape_html @search}</mark>") } }
   end
   show :search, 'Search Results'
 end
