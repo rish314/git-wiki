@@ -7,8 +7,8 @@ header, nav, article, section, footer, figure, aside { display: block; }
 html, body {background-color: #fbf9f7; color: #444;}
 
 body {
-  /* one centered column of max 920px and min 30em */
-  min-width: 30em; max-width: 920px; margin: 0em auto; padding: 2em;
+  /* one centered column of max 600px and min 30em */
+  min-width: 30em; max-width: 600px; margin: 0em auto; padding: 2em;
   font-family: "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
   font-size: 13px; line-height: 1.6em;
 }
@@ -180,11 +180,19 @@ div.attach-options {
   width: 100%;
 }
 
-body > header, footer {
+body > header {
   clear: both;
   border-top: 1px solid #B3915D; border-bottom: 1px solid #B3915D;
   text-align: right;
   padding: 4px;
+}
+
+footer {
+  clear: both;
+  border-top: 1px solid #B3915D;
+  text-align: right;
+  padding: 4px;
+  margin-top: 4em;
 }
 /* footer a, footer a:visited { color: #666; } */
 
