@@ -1,10 +1,12 @@
 require 'rubygems'
+require 'bundler/setup'
+
+require 'git'
+require 'bluecloth'
+require 'rubypants'
+
 require 'extensions'
 require 'page'
-
-%w(git bluecloth rubypants).each do |gem|
-  require_gem_with_feedback gem
-end
 
 GIT_REPO = ENV['HOME'] + '/wiki'
 HOMEPAGE = 'home'

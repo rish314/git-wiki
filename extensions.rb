@@ -1,16 +1,4 @@
-def require_gem_with_feedback(gem)
-  begin
-    require gem
-  rescue LoadError
-    puts "You need to 'gem install #{gem}' before we can proceed"
-  end
-end
-
-
-
 class String
-
-
   # Pre-formatted code blocks are used for writing about programming or markup source code. Rather than forming normal paragraphs, the lines of a code block are interpreted literally. Markdown wraps a code block in both <pre> and <code> tags.
   # To produce a code block in Markdown, simply indent every line of the block by at least 4 spaces or 1 tab. For example, given this input:
   MARKDOWN_PRE = /^\ {4}|\t/
