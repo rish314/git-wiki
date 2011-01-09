@@ -10,6 +10,7 @@
   <ul>
   <% @page.history.each do |c| %>
     <li>
+      <img src="http://gravatar.com/avatar/<%= Digest::MD5.hexdigest(c.author.email.downcase) %>?s=12&d=identicon"/>
       <script type="text/javascript">
       document.write(time_ago_in_words(<%= c.committer_date.for_time_ago_in_words %>) + ' ago');
       </script>
