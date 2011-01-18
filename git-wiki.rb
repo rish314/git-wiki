@@ -45,11 +45,13 @@ post '/eip/:page' do
 end
 
 get '/h/:page' do
+  @menu = Page.new("menu")
   @page = Page.new(params[:page])
   show :history, "History of #{@page.name}"
 end
 
 get '/h/:page/:rev' do
+  @menu = Page.new("menu")
   @page = Page.new(params[:page], params[:rev])
   show :show, "#{@page.name} (version #{params[:rev]})"
 end
@@ -63,6 +65,7 @@ end
 
 get '/a/list' do
   pages = $repo.log.first.gtree.children
+  @menu = Page.new("menu")
   @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
   show(:list, 'Listing pages')
 end
@@ -82,6 +85,7 @@ get '/a/tarball' do
 end
 
 get '/a/branches' do
+  @menu = Page.new("menu")
   @branches = $repo.branches
   show :branches, "Branches List"
 end
@@ -92,6 +96,7 @@ get '/a/branch/:branch' do
 end
 
 get '/a/history' do
+  @menu = Page.new("menu")
   @history = $repo.log
   show :branch_history, "Branch History"
 end

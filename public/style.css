@@ -13,6 +13,7 @@ body {
   font-size: 13px; line-height: 1.6em;
 }
 
+
 a { color: #1a82bf; text-decoration: none; }
   a:visited { color: #0e4061; }
   a:hover { text-decoration: underline; }
@@ -46,12 +47,8 @@ textarea {
   padding: 5px;
 }
 
-ul {
-  list-style-type: square;
-  padding: 0 0 1em 1.4em;
-}
+ul { padding: 0 0 1em 1.4em; }
 
-/* classes */
 
 .cancel {
   font-weight: normal;
@@ -87,14 +84,14 @@ article .content {
 
 /* header { background-color: #443B31; } */
 
-header nav a { display: inline; padding: 1px 6px; border-radius: 2px;}
-  header nav a:hover { background-color: #f0f0f0; color: #1a82bf; text-decoration: none; }
+header nav a { display: inline; padding: 1px 6px; border-radius: 2px; color: white; text-decoration: none; font-weight: bold; }
+  header nav a:visited { color: white; }
+  header nav a:hover { background-color: #696969; color: #feb800; text-decoration: none; }
 
 header nav ul, header nav li { display: inline; margin: 0; padding: 0; }
 
 header nav { position: relative; }
-header nav ul li ul { position: absolute; left: 0; top: 90%; background: #f0f0f0; width: 100%; text-align: center;
-    display: none; /* submenus are hidden: */ }
+header nav ul li ul { position: absolute; left: 0; top: 90%; background: #696969; border-radius: 3px; width: 100%; text-align: center; display: none; /* submenus are hidden: */ }
 
 header nav ul li:hover ul { display: inline; } /* display submenu on hover*/
 
@@ -148,10 +145,8 @@ article aside {
   padding: 0.5em;
   background: #f0f0f0;
   border-radius: 3px;
-/*   text-shadow: white 1px 1px 0px; */
+  text-shadow: rgba(255,255,255,0.9) 1px 1px 0px;
 }
-
-nav, article aside { text-shadow: rgba(255,255,255,0.9) 1px 1px 0px; }
 
 article aside .details {
   color: #888;
@@ -168,35 +163,22 @@ div.attach-options {
   font-size: .85em;
   color: #888;
 }
-/* ids */
 
-#edit_textarea {
-  height: 35em;
-  margin-top: 1.5em;
-  width: 100%;
-}
-#message_textarea {
-  height: 4em;
-  width: 100%;
-}
+textarea { width: 100%; }
+textarea.body { height: 35em; margin-top: 1.5em; }
+textarea.message { height: 4em; }
 
 body > header {
   clear: both;
-  border-top: 1px solid #B3915D; border-bottom: 1px solid #B3915D;
-  text-align: right;
-  padding: 4px;
+  background: #464141; color: white;
+  text-align: right; padding: 4px;
+  border-radius: 3px;
 }
 
 footer {
   clear: both;
-  border-top: 1px solid #B3915D;
-  text-align: right;
-  padding: 4px;
-  margin-top: 4em;
+  border-top: 1px solid #464141; color: #464141;
+  text-align: right; padding: 4px; margin-top: 4em;
 }
-/* footer a, footer a:visited { color: #666; } */
 
-#search_field {
-  border: 1px solid #ccc;
-  color: #999;
-}
+#search_field { border: 1px solid #ccc;  color: #999; }

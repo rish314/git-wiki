@@ -17,10 +17,13 @@
         <a href="/" class="nav_link">home</a>
         <%= @menu.body rescue nil %>
         <input type="search" id="search_field" name="search" size="30" placeholder="search" accesskey="S" autofocus />
-        <a href="/a/branches" class="nav_link">branches</a>
-        <a href="/a/history" class="nav_link">history</a>
-        <a href="/a/list" class="nav_link">pages</a>
-        <a href="/a/tarball" class="nav_link">export</a>
+        <ul><li><a href="/wiki">wiki</a>
+          <ul><li><a href="/a/branches" class="nav_link">branches</a></li>
+              <li><a href="/a/history" class="nav_link">history</a></li>
+              <li><a href="/a/list" class="nav_link">pages</a></li>
+              <li><a href="/a/tarball" class="nav_link">export</a></li>
+            </ul></li>
+        </ul>
       </nav>
     </form>
     </header>
