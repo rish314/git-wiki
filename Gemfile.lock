@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    bluecloth (2.0.9)
+    bluecloth (2.0.10)
     git (1.2.5)
     rack (1.2.1)
     rubypants (0.2.0)

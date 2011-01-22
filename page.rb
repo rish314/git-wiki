@@ -21,7 +21,7 @@ class Page
   end
 
   def body
-    @body ||= RubyPants.new(BlueCloth.new(raw_body.wiki_linked).to_html).to_html
+    @body ||= RubyPants.new(BlueCloth.new(raw_body.wiki_linked, :tables => true).to_html).to_html
   end
 
   def branch_name
