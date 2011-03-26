@@ -197,17 +197,17 @@ end
 
 private
 
-  def show(template, title)
-    @title = title
-    erb(("#{template}.html").to_sym)
-  end
+def show(template, title)
+  @title = title
+  erb(("#{template}.html").to_sym)
+end
 
-  def touchfile
-    # adds meta file to repo so we have somthing to commit initially
-    $repo.chdir do
-      f = File.new(".meta",  "w+")
-      f.puts($repo.current_branch)
-      f.close
-      $repo.add('.meta')
-    end
+def touchfile
+  # adds meta file to repo so we have somthing to commit initially
+  $repo.chdir do
+    f = File.new(".meta",  "w+")
+    f.puts($repo.current_branch)
+    f.close
+    $repo.add('.meta')
   end
+end
