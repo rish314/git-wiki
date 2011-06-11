@@ -8,24 +8,25 @@
     <!--link rel="stylesheet" href="/code.css" type="text/css" media="screen" /-->
     <script src="/app.js"></script>
     <script src="/jquery.min.js"></script>
+    <link rel="icon" type="image/png" href="/icon.png" />
     <!--script src="/jeditable.min.js"></script-->
   </head>
   <body>
     <header>
-    <form method="get" action="/a/search">
-      <nav>
-        <a href="/" class="nav_link">home</a>
-        <%= @menu.body rescue nil %>
-        <input type="search" id="search_field" name="search" size="30" placeholder="search" accesskey="S" autofocus />
-        <ul><li><a href="/wiki">wiki</a>
-          <ul><li><a href="/a/branches" class="nav_link">branches</a></li>
-              <li><a href="/a/history" class="nav_link">history</a></li>
-              <li><a href="/a/list" class="nav_link">pages</a></li>
-              <li><a href="/a/tarball" class="nav_link">export</a></li>
-            </ul></li>
-        </ul>
-      </nav>
-    </form>
+      <form method="get" action="/a/search">
+        <nav>
+          <a href="/" class="nav_link">home</a>
+          <%= @menu.body rescue nil %>
+          <input type="search" id="search_field" name="search" size="30" placeholder="search" accesskey="S" autofocus />
+          <ul><li><a href="/wiki">wiki</a>
+            <ul><li><a href="/a/branches" class="nav_link">branches</a></li>
+                <li><a href="/a/history" class="nav_link">history</a></li>
+                <li><a href="/a/list" class="nav_link">pages</a></li>
+                <li><a href="/a/tarball" class="nav_link">export</a></li>
+              </ul></li>
+          </ul>
+        </nav>
+      </form>
     </header>
     <%= yield %>
     <footer>powered by a <a href="http://github.com/sr/git-wiki/network">git-wiki</a> fork</footer>

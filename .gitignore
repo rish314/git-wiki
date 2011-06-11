@@ -4,4 +4,5 @@
 # nasty backup files text editors write every now and then
 .*~
 .directory
+.*.kate-swp
 
