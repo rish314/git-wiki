@@ -1,6 +1,8 @@
-<script language="javascript" type="text/javascript" src="/sh_main.min.js"></script>
-<script language="javascript" type="text/javascript" src="/sh_diff.min.js"></script>
-<link rel="stylesheet" href="/sh_style.css" type="text/css" media="screen" />
+<% content_for :head do %>
+  <script src="/sh_main.min.js"></script>
+  <script src="/sh_diff.min.js"></script>
+  <link rel="stylesheet" href="/sh_style.css" type="text/css" media="screen" />
+<% end %>
 
 <h1>Diff of <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
 
@@ -14,6 +16,6 @@
   <pre class="sh_diff"><%= @page.delta(params[:rev]) %></pre>
 </section>
 
-<script type="text/javascript">
+<script>
   sh_highlightDocument();
 </script>

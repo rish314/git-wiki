@@ -3,6 +3,7 @@
 require 'fileutils'
 require 'environment'
 require 'sinatra'
+require 'sinatra/content_for'
 
 get('/') { redirect "/#{HOMEPAGE}" }
 
