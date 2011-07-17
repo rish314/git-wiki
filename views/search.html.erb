@@ -1,10 +1,10 @@
 <article>
   <aside>
-    <div class="details">
+    <section class="details">
       <p><%= @titles.size %> titles matching</p>
       <p><%= @grep.size %> pages contain match</p>
       <p><%= @grep.map { |g| g[1].size }.inject { |acc, n| acc + n } %> results</p>
-    </div>
+    </section>
     <p>Create <a href="/<%= @search.as_wiki_link %>"><%= @search %></a>.</p>
   </aside>
 
@@ -14,7 +14,7 @@
     <h1>Results for '<span class="search_term"><%= @search %></span>'</h1>
   <% end %>
 
-  <div class="content">
+  <section class="results">
     <% [@titles, @grep].each do |x| %>
         <% x.each do |sha, arr_match| %>
         <div class="search_result">
@@ -28,5 +28,5 @@
         </div>
       <% end %>
     <% end %>
-  </div>
+  </section>
 </article>
