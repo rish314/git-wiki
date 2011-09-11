@@ -13,16 +13,16 @@
       <% if commit != @history.first %>
         <a href="/a/revert_branch/<%= commit.sha %>" title="Click to revert to this revision." onclick="return confirm('Are you sure you want to revert to this revision?');">
           <script type="text/javascript">
-          document.write(time_ago_in_words(<%= commit.date.for_time_ago_in_words %>) + ' ago');
+          document.write(time_ago_in_words(<%= commit.date.to_json %>) + ' ago');
           </script>
         </a>
       <% else %>
         <script type="text/javascript">
-        document.write(time_ago_in_words(<%= commit.date.for_time_ago_in_words %>) + ' ago');
+        document.write(time_ago_in_words(<%= commit.date.to_json %>) + ' ago');
         </script>
       <% end %>
       &mdash;
-      <%= commit.message %> 
+      <%= commit.message %>
     </li>
   <% end %>
   </ul>

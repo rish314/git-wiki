@@ -4,5 +4,3 @@ gem "sinatra"
 gem "git"
 gem "bluecloth"
 gem "rubypants"
-
-
