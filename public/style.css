@@ -1,16 +1,17 @@
 /* html5 goodness */
 header, nav, article, section, footer, figure, aside { display: block; }
 
+html, body {/*background-color: #fbf9f7;*/ color: #404038;}
 
-/* elements */
-
-html, body {background-color: #fbf9f7; color: #444;}
+html {
+  border-top: 4px solid #464141;
+}
 
 body {
   /* one centered column of max 600px and min 30em */
   min-width: 30em; max-width: 600px; margin: 0em auto; padding: 2em;
-  font-family: "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
-  font-size: 13px; line-height: 1.6em;
+  font-family: "Cantarell", "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
+  font-size: 15px; line-height: 1.5em;
 }
 
 
@@ -134,6 +135,7 @@ header nav ul li:hover ul { display: inline; } /* display submenu on hover*/
 article aside {
   float: right;
   padding: 0.5em;
+  margin: 0 0 0.5em 0.5em;
   background: #f0f0f0;
   border-radius: 3px;
   text-shadow: rgba(255,255,255,0.9) 1px 1px 0px;
