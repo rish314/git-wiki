@@ -5,5 +5,3 @@ gem "sinatra-content-for"
 gem "git"
 gem "bluecloth"
 gem "rubypants"
-
-

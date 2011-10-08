@@ -41,7 +41,7 @@ end
 
 
 class Time
-  def for_time_ago_in_words
-    "#{(self.to_i * 1000)}"
+  def to_json
+    (to_i * 1000).to_s
   end
 end
