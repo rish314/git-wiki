@@ -1,7 +1,9 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-gem "sinatra"
-gem "sinatra-content-for"
-gem "git"
-gem "bluecloth"
-gem "rubypants"
+gem 'sinatra'
+gem 'sinatra-content-for'
+gem 'git'
+gem 'bluecloth'
+gem 'rubypants'
+# gem 'redcarpet'
+
