@@ -148,7 +148,7 @@ get '/a/search' do
   @menu = Page.new("menu")
   @search = params[:search]
   @titles = search_on_filename(@search)
-  @grep = $repo.grep(@search, :ignore_case => true)
+  @grep = $repo.grep(@search, nil, :ignore_case => true)
   [@titles, @grep].each do |x|
     puts x.inspect
     x.values.each {|v| v.each { |w| w.last.gsub!(@search, "<mark>#{escape_html @search}</mark>") } }
