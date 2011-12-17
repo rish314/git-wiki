@@ -52,7 +52,7 @@ textarea {
 }
 
 ul { padding: 0 0 1em 1.4em; }
-
+li ul { padding: 0 0 0 1.4em; } /* no vertical padding for nested lists */
 
 .cancel {
   font-weight: normal;
