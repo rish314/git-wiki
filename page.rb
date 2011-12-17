@@ -112,6 +112,7 @@ class Page
       $repo.add(new_file)
       $repo.commit(commit_message)
     rescue
+      # FIXME why!??
       nil
     end
   end
@@ -126,6 +127,7 @@ class Page
         $repo.remove(file_path)
         $repo.commit(commit_message)
       rescue
+        # FIXME why is this here!?
         nil
       end
 
@@ -140,8 +142,10 @@ class Page
     end
   end
 
+
   class Attachment
     attr_accessor :path, :page_name
+
     def initialize(file_path, name)
       @path = file_path
       @page_name = name
@@ -180,3 +184,4 @@ class Page
   end
 
 end
+
