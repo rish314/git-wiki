@@ -9,3 +9,17 @@ h2. Requirements
 * grit
 * bluecloth
 * rubypants
+
+h2. What is different in this fork
+
+* more likely to be a bit minimalistic or 'pure' than chock-full of features (no bloat)
+* html5, no time spent on supporting old browsers
+* case-insensitive searching. This makes a lot of ssense for a wiki, doesn't it?
+* minimal design
+* gravatars in page history
+* the top bar is partly a self-hosted wiki page
+* attachments might not work :-/
+* improved recognition for urls
+* usable on mobile browsers (iphone/android)
+* no javascript used at this time. (might change in the future)
+
