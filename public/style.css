@@ -7,9 +7,12 @@ html {
   border-top: 4px solid #464141;
 }
 
+/* a responsive design trick: */
+img { max-width: 100%; }
+
 body {
-  /* one centered column of max 600px and min 30em */
-  min-width: 30em; max-width: 600px; margin: 0em auto; padding: 2em;
+  /* one centered column of max 600px */
+  max-width: 600px; margin: 0em auto; padding: 2em;
   font-family: "Cantarell", "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
   font-size: 15px; line-height: 1.5em;
 }
