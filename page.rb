@@ -35,7 +35,7 @@ class Page
     end
   end
 
-  def update(content, message=nil)
+  def update(content, message = nil)
     File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
