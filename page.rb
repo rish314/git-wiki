@@ -24,7 +24,7 @@ class Page
   end
 
   def updated_at
-    commit.committer_date rescue Time.now
+    commit.committer_date
   end
 
   def raw_body
