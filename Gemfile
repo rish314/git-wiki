@@ -6,4 +6,5 @@ gem 'git'
 gem 'bluecloth'
 gem 'rubypants'
 # gem 'redcarpet'
+gem 'shotgun'
 
