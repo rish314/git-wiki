@@ -1,15 +1,24 @@
 class String
-  # Pre-formatted code blocks are used for writing about programming or markup source code. Rather than forming normal paragraphs, the lines of a code block are interpreted literally. Markdown wraps a code block in both <pre> and <code> tags.
-  # To produce a code block in Markdown, simply indent every line of the block by at least 4 spaces or 1 tab. For example, given this input:
+  # Pre-formatted code blocks are used for writing about programming or markup
+  # source code. Rather than forming normal paragraphs, the lines of a code
+  # block are interpreted literally. Markdown wraps a code block in both <pre>
+  # and <code> tags.
+  #
+  # To produce a code block in Markdown, simply indent every line of the block
+  # by at least 4 spaces or 1 tab.
   MARKDOWN_PRE = /^\ {4}|\t/
 
-  # matches [[Page]] or even [[a page]] just like in wikipedia and gollum
+  # Match [[Page]] or even [[a page]] just like in wikipedia and gollum
   GIT_WIKI_SIMPLE_LINK = /\[\[([\w\s\+\-\_]+)\]\]/
-  # matches [[Texas|Lone Star state]] just like wikipedia and unlike gollum (gollum reverses the order of things)
+
+  # Match [[Texas|Lone Star state]] just like wikipedia and unlike gollum
+  # (gollum reverses the order of things)
   GIT_WIKI_COMPLEX_LINK = /\[\[([\w\s]+)\|([\w\s]+)\]\]/
-  # replace things that are obviously meant to be a url.
-  # http(s) or ftp or file then a colon and then some number of slashes, numbers, chars, question marks, dots (very important)...
-  # far from perfect, good enough for now.
+
+  # Replace things that are obviously meant to be a url:
+  #   http(s) or ftp or file then a colon and then some number of slashes,
+  #   numbers, chars, question marks, dots (very important)...
+  # It is far from perfect; it is good enough for now.
   GIT_WIKI_OBVIOUS_URI = /(https?|ftps?|file)\:[\/\\\w\d\/\-\+\?\&\=\.\_\@\%\&\*\~]+/
 
   def wiki_linked
@@ -45,3 +54,4 @@ class Time
     (to_i * 1000).to_s
   end
 end
+
