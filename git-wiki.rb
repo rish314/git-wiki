@@ -185,7 +185,8 @@ def search_on_filename(search)
   needle = search.as_wiki_link
   pagenames = $repo.log.first.gtree.children.keys # our haystack
   titles = {}
-  pagenames.select { |page| page.include? needle }.each do |page|
+  pagenames.each do |page|
+    next unless page.include? needle
     current_branch_sha1 = $repo.log.first
     titles["#{current_branch_sha1}:#{page}"] = page.map {|page| [0, page] }
   end

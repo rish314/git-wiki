@@ -17,3 +17,4 @@ unless File.exists?(GIT_REPO) && File.directory?(GIT_REPO)
 end
 
 $repo = Git.open(GIT_REPO)
+
