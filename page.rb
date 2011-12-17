@@ -43,6 +43,7 @@ class Page
       $repo.add(@name)
       $repo.commit(commit_message)
     rescue
+      # FIXME I don't like this, why is there a catchall here?
       nil
     end
     @body = nil; @raw_body = nil
@@ -71,17 +72,16 @@ class Page
   end
 
   def next_commit
-    begin
-      if (self.history.first.sha == self.commit.sha)
-        @next_commit ||= nil
-      else
-        matching_index = nil
-        history.each_with_index { |c, i| matching_index = i if c.sha == self.commit.sha }
-        @next_commit ||= history.to_a[matching_index - 1]
-      end
-    rescue
+    if (self.history.first.sha == self.commit.sha)
       @next_commit ||= nil
+    else
+      matching_index = nil
+      history.each_with_index { |c, i| matching_index = i if c.sha == self.commit.sha }
+      @next_commit ||= history.to_a[matching_index - 1]
     end
+  rescue
+    # FIXME weird catch-all error handling
+    @next_commit ||= nil
   end
 
   def version(rev)
