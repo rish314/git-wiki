@@ -3,6 +3,7 @@
 
 # nasty backup files text editors write every now and then
 .*~
+.*.swp
 .directory
 .*.kate-swp
 .bundle
