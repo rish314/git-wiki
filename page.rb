@@ -12,12 +12,7 @@ class Page
   end
 
   def attach_dir
-    @attach_dir ||= File.join(GIT_REPO, ATTACHMENTS_DIR, unwiki(@name))
-  end
-
-  # TODO: Get rid of this.
-  def unwiki(string)
-    string.downcase
+    @attach_dir ||= File.join(GIT_REPO, ATTACHMENTS_DIR, @name.downcase)
   end
 
   def body
