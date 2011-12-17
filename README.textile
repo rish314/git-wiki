@@ -10,7 +10,7 @@ h2. Requirements
 * bluecloth
 * rubypants
 
-h2. What is different in this fork
+h2. What is different in this fork?
 
 * more likely to be a bit minimalistic or 'pure' than chock-full of features (no bloat)
 * html5, no time spent on supporting old browsers
