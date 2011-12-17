@@ -21,5 +21,5 @@ h2. What is different in this fork?
 * attachments might not work :-/
 * improved recognition for urls
 * usable on mobile browsers (iphone/android)
+* use updated or different gems for more extensive markdown-support. (a.o. tables)
 * no javascript used at this time. (might change in the future)
-
