@@ -193,6 +193,7 @@ def search_on_filename(search)
   titles
 end
 
+# returns an absolute url
 def page_url(page)
   "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}/#{page}"
 end
@@ -213,3 +214,4 @@ def touchfile
     $repo.add('.meta')
   end
 end
+
