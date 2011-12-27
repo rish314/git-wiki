@@ -19,7 +19,7 @@ class String
   #   http(s) or ftp or file then a colon and then some number of slashes,
   #   numbers, chars, question marks, dots (very important)...
   # It is far from perfect; it is good enough for now.
-  GIT_WIKI_OBVIOUS_URI = /(https?|ftps?|file)\:[\/\\\w\d\/\-\+\?\&\=\.\_\@\%\&\*\~\#]+/
+  GIT_WIKI_OBVIOUS_URI = /(https?|ftps?|file)\:[\/\\\w\d\/\-\+\?\!\&\=\.\_\@\%\&\*\~\#]+/
 
   def wiki_linked
     with_links = ""
