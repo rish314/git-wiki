@@ -65,7 +65,7 @@ li ul, li ol { padding: 0 0 0 1.4em; } /* no vertical padding for nested lists *
 .clearer { clear: both; }
 
 article > h1 { font-size: 160% }
-article > h2 { font-size: 120%; color: #333; }
+article > h2 { font-size: 110%; color: #333; }
 
 .delta {
   font-size: 1.1em;
