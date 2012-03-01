@@ -1,7 +1,8 @@
 #!/usr/bin/env rackup
 LIB_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 $:.unshift LIB_PATH
-require 'git-wiki/application'
+require 'git-wiki/config'
+GitWiki::Config.from_file(File.join(File.dirname(__FILE__), 'config.rb'))
 
-GitWiki::Config.new
+require 'git-wiki/application'
 run GitWiki::Application

@@ -3,32 +3,25 @@ require 'sinatra'
 require 'sinatra/content_for'
 require 'git-wiki/environment'
 require 'git-wiki/config'
-require 'git-wiki/authorization'
+require 'git-wiki/authentication'
 require 'time-ago-in-words'
 require 'encrypted_cookie'
+require 'sinatra/flash'
 
 module GitWiki
   class Application < Sinatra::Base
 
-    configure :production, :test do
-      use Rack::Session::EncryptedCookie,
-        :key => 'rack.session',
-        :domain => '.scriptkiddie.org',                                    # XXX: config
-        :path => '/',
-        :expire_after => 2592000,
-        :secret => 'thisneedstobekeptsecretandnotchckedintogit'            # XXX: config
-    end
-
-    configure :development do
-      use Rack::Session::EncryptedCookie,
-        :key => 'rack.session',
-        :path => '/',
-        :expire_after => 2592000,
-        :secret => 'thisneedstobekeptsecretandnotchckedintogit'            # XXX: config
-    end
+    use Rack::Session::EncryptedCookie,
+      :key => GitWiki::Config[:cookie_key],
+      :domain => GitWiki::Config[:cookie_domain],
+      :path => GitWiki::Config[:cookie_path],
+      :expire_after => GitWiki::Config[:cookie_expire_after],
+      :secret => GitWiki::Config[:cookie_secret]
 
     set :app_file, __FILE__
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+
+    register Sinatra::Flash
 
     helpers Sinatra::ContentFor
 
@@ -36,24 +29,17 @@ module GitWiki
     # start of user auth (needs to be modularized now)
     #
 
-    set :username, 'admin'                                                 # XXX: config
-    set :password, 'admin'                                                 # XXX: config
-
-    helpers do
-      def admin? 
-        session[:username] == settings.username
-      end
-      def protected!
-        redirect '/login' unless admin? 
-      end
-    end
-
     post '/login' do
-      if params['username'] == settings.username && params['password'] == settings.password
-        session[:username] = settings.username
-        redirect '/'
+      if GitWiki::Authentication.authenticated?(params['username'], params['password'])
+        session[:username] = params['username']
+        if session[:saved_path]
+          redirect session[:saved_path]
+        else
+          redirect '/'
+        end
       else
-        "Username or Password incorrect"
+        flash[:error] = "Username or Password incorrect"
+        redirect '/login'
       end
     end
 
@@ -67,7 +53,12 @@ module GitWiki
     end
 
     before do
-      protected! unless request.path == "/login"
+      unless request.path == "/login"
+        unless session[:username]
+          session[:saved_path] = request.path
+          redirect '/login'
+        end
+      end
     end
 
     #

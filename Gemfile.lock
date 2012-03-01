@@ -4,6 +4,7 @@ GEM
     bluecloth (2.2.0)
     encrypted_cookie (0.0.4)
     git (1.2.5)
+    mixlib-config (1.1.2)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -16,6 +17,8 @@ GEM
       tilt (~> 1.3, >= 1.3.3)
     sinatra-content-for (0.2)
       sinatra
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
     tilt (1.3.3)
     time-ago-in-words (0.1.2)
 
@@ -26,8 +29,10 @@ DEPENDENCIES
   bluecloth
   encrypted_cookie
   git
+  mixlib-config
   rubypants
   shotgun
   sinatra
   sinatra-content-for
+  sinatra-flash
   time-ago-in-words
