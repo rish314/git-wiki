@@ -5,25 +5,26 @@ require 'git-wiki/environment'
 require 'git-wiki/config'
 require 'git-wiki/authorization'
 require 'time-ago-in-words'
+require 'encrypted_cookie'
 
 module GitWiki
   class Application < Sinatra::Base
 
     configure :production, :test do
-      use Rack::Session::Cookie,
+      use Rack::Session::EncryptedCookie,
         :key => 'rack.session',
-        :domain => '.scriptkiddie.org',  # XXX: config
+        :domain => '.scriptkiddie.org',                                    # XXX: config
         :path => '/',
         :expire_after => 2592000,
-        :secret => 'changeme'            # XXX: config
+        :secret => 'thisneedstobekeptsecretandnotchckedintogit'            # XXX: config
     end
 
     configure :development do
-      use Rack::Session::Cookie,
+      use Rack::Session::EncryptedCookie,
         :key => 'rack.session',
         :path => '/',
         :expire_after => 2592000,
-        :secret => 'changeme'            # XXX: config
+        :secret => 'thisneedstobekeptsecretandnotchckedintogit'            # XXX: config
     end
 
     set :app_file, __FILE__
@@ -35,21 +36,12 @@ module GitWiki
     # start of user auth (needs to be modularized now)
     #
 
-    set :username, 'admin'
-    set :password, 'admin'
-    set :encryptionkey, 'mysupersecretpassphrase'  # XXX: config, secret
+    set :username, 'admin'                                                 # XXX: config
+    set :password, 'admin'                                                 # XXX: config
 
     helpers do
       def admin? 
-        decrypted_user = begin
-          c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
-          c.decrypt
-          c.key = Digest::SHA1.hexdigest( settings.encryptionkey )
-          c.iv = session[:encrypted_user_iv]
-          d = c.update( session[:encrypted_user] )
-          d << c.final
-        end unless session[:encrypted_user].nil?
-        decrypted_user == settings.username
+        session[:username] == settings.username
       end
       def protected!
         redirect '/login' unless admin? 
@@ -58,14 +50,7 @@ module GitWiki
 
     post '/login' do
       if params['username'] == settings.username && params['password'] == settings.password
-        session[:encrypted_user] = begin
-          c = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
-          c.encrypt
-          c.key = Digest::SHA1.hexdigest( settings.encryptionkey )
-          c.iv = session[:encrypted_user_iv] = c.random_iv
-          e = c.update( settings.username )
-          e << c.final
-        end
+        session[:username] = settings.username
         redirect '/'
       else
         "Username or Password incorrect"
@@ -77,7 +62,7 @@ module GitWiki
     end
     
     get '/logout' do
-      session[:encrypted_user] = nil
+      session[:username] = nil
       redirect '/'
     end
 
