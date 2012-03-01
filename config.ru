@@ -1,6 +1,7 @@
-# note for self: the default port is 9292
-require 'git-wiki'
-disable :run
-set :root, Pathname(__FILE__).dirname
-run Sinatra::Application
+#!/usr/bin/env rackup
+LIB_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
+$:.unshift LIB_PATH
+require 'git-wiki/application'
 
+GitWiki::Config.new
+run GitWiki::Application

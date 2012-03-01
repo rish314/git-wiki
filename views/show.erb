@@ -1,0 +1,43 @@
+<article>
+
+  <nav role="article">
+    <a href="/h/<%= @page.name %>" class="nav_link">history</a>
+    &bull; 
+
+    <% if params[:rev] %>
+      <a class="greyed">edit</a>
+    <% else %>
+      <a href="/e/<%= @page.name %>" class="nav_link">edit</a>
+    <% end %>
+    &bull; 
+
+    <% if @page.previous_commit %>
+      <a href="/h/<%= @page.name %>/<%= @page.previous_commit %>" class="nav_link">prevous</a>
+    <% else %>
+      <a class="greyed">previous</a>
+    <% end %>
+    &bull; 
+
+    <% if @page.next_commit %>
+      <a href="/h/<%= @page.name %>/<%= @page.next_commit %>" class="nav_link">next</a>
+    <% else %>
+      <a class="greyed">next</a>
+    <% end %>
+    &bull; 
+
+    <% if params[:rev] %>
+      <a href="/<%= @page.name %>" class="nav_link">latest</a> 
+    <% else %>
+      <a class="greyed">latest</a>
+    <% end %>
+  </nav>
+  <aside>
+      <%= @page.updated_at.time_ago_in_words %>
+      <br/>
+      <%= $repo.current_branch %> branch
+  </aside>
+
+  <header><h1><%= @page.name.gsub('_', ' ') %></h1></header>
+
+  <%= @page.body %>
+</article>

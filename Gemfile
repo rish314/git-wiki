@@ -7,4 +7,6 @@ gem 'bluecloth'
 gem 'rubypants'
 # gem 'redcarpet'
 gem 'shotgun'
+gem 'time-ago-in-words'
+gem 'encrypted_cookie'
 

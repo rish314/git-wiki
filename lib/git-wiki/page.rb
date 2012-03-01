@@ -1,3 +1,6 @@
+
+require 'git-wiki/wikilink'
+
 class Page
   attr_reader :name
   ATTACHMENTS_DIR = '_attachments'
@@ -16,7 +19,7 @@ class Page
   end
 
   def body
-    @body ||= RubyPants.new(BlueCloth.new(raw_body.wiki_linked, :tables => true).to_html).to_html
+    @body ||= RubyPants.new(BlueCloth.new(GitWiki::WikiLink.new(raw_body).wiki_linked, :tables => true).to_html).to_html
   end
 
   def branch_name
@@ -86,7 +89,7 @@ class Page
 
   def version(rev)
     data = blob.contents
-    RubyPants.new(BlueCloth.new(data.wiki_linked).to_html).to_html
+    RubyPants.new(BlueCloth.new(GitWiki::WikiLink.new(data).wiki_linked).to_html).to_html
   end
 
   def blob

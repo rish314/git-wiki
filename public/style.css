@@ -12,7 +12,7 @@ img { max-width: 100%; }
 
 body {
   /* one centered column of max 600px */
-  max-width: 600px; margin: 0em auto; padding: 2em;
+  margin: 0em auto; padding: 2em;
   font-family: "Cantarell", "Droid Sans", Arial, "Deja Vu Sans", "Bitstream Vera Sans", sans-serif;
   font-size: 15px; line-height: 1.5em;
 }
@@ -81,16 +81,22 @@ article > h2 { font-size: 110%; color: #333; }
 
 /* header { background-color: #443B31; } */
 
-header nav a { display: inline; padding: 1px 6px; border-radius: 2px; color: white; text-decoration: none; font-weight: bold; }
-  header nav a:visited { color: white; }
-  header nav a:hover { background-color: #696969; color: #feb800; text-decoration: none; }
+nav[role=site] { position: relative; }
 
-header nav ul, header nav li { display: inline; margin: 0; padding: 0; }
+nav[role=site] a { display: inline; padding: 1px 6px; border-radius: 2px; color: white; text-decoration: none; font-weight: bold; }
+  nav[role=site] a:visited { color: white; }
+  nav[role=site] a:hover { background-color: #696969; color: #feb800; text-decoration: none; }
 
-header nav { position: relative; }
-header nav ul li ul { position: absolute; left: 0; top: 90%; background: #696969; border-radius: 3px; width: 100%; text-align: center; display: none; /* submenus are hidden: */ }
+nav[role=article] { position: relative; }
 
-header nav ul li:hover ul { display: inline; } /* display submenu on hover*/
+nav[role=article] a { display: inline; padding: 1px 6px; border-radius: 2px; color: #464141; text-decoration: none; font-weight: bold; }
+  nav[role=article] a:visited { color: #464141; }
+  nav[role=article] a:hover { background-color: #696969; color: #feb800; text-decoration: none; }
+
+nav[role=article] a.greyed { color: #ccc; }
+  nav[role=article] a:hover { background-color: white; color: #ccc; }
+
+
 
 /*header, #footer {
   border-top: 1px solid #ccc;
@@ -167,7 +173,7 @@ textarea.message { height: 4em; }
 body > header {
   clear: both;
   background: #464141; color: white;
-  text-align: right; padding: 4px;
+  text-align: left; padding: 4px;
   border-radius: 3px;
 }
 

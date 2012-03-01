@@ -1,11 +1,11 @@
 <article>
-  <aside>
+  <nav role="article">
     <a href="/<%= @page.name %>" class="nav_link">back</a>
     &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
     <% if @page.tracked? %>
       &bull; <a href="/h/<%= @page.name %>" class="nav_link">history</a>
     <% end %>
-  </aside>
+  </nav>
 
   <h1>Editing <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
 
