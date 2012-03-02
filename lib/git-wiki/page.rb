@@ -1,9 +1,10 @@
 
 require 'git-wiki/wikilink'
+require 'rubypants'
+require 'bluecloth'
 
 class Page
   attr_reader :name
-  ATTACHMENTS_DIR = '_attachments'
 
   def initialize(name, rev = nil)
     @name = name
@@ -11,11 +12,11 @@ class Page
   end
 
   def filename
-    @filename ||= File.join(GIT_REPO, @name)
+    @filename ||= File.join(GitWiki::Config[:repository], @name)
   end
 
   def attach_dir
-    @attach_dir ||= File.join(GIT_REPO, ATTACHMENTS_DIR, @name.downcase)
+    @attach_dir ||= File.join(GitWiki::Config[:repository], GitWiki::Config[:attachments_dir], @name.downcase)
   end
 
   def body
@@ -23,7 +24,7 @@ class Page
   end
 
   def branch_name
-    $repo.current_branch
+    repo.current_branch
   end
 
   def updated_at
@@ -43,8 +44,8 @@ class Page
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
     begin
-      $repo.add(@name)
-      $repo.commit(commit_message)
+      repo.add(@name)
+      repo.commit(commit_message)
     rescue
       # FIXME I don't like this, why is there a catchall here?
       nil
@@ -54,24 +55,24 @@ class Page
   end
 
   def tracked?
-    $repo.ls_files.keys.include?(@name)
+    repo.ls_files.keys.include?(@name)
   end
 
   def history
     return nil unless tracked?
-    @history ||= $repo.log.path(@name)
+    @history ||= repo.log.path(@name)
   end
 
   def delta(rev)
-    $repo.diff(previous_commit, rev).path(@name).patch
+    repo.diff(previous_commit, rev).path(@name).patch
   end
 
   def commit
-    @commit ||= $repo.log.object(@rev || 'master').path(@name).first
+    @commit ||= repo.log.object(@rev || 'master').path(@name).first
   end
 
   def previous_commit
-    @previous_commit ||= $repo.log(2).object(@rev || 'master').path(@name).to_a[1]
+    @previous_commit ||= repo.log(2).object(@rev || 'master').path(@name).to_a[1]
   end
 
   def next_commit
@@ -93,7 +94,7 @@ class Page
   end
 
   def blob
-    @blob ||= ($repo.gblob(@rev + ':' + @name))
+    @blob ||= (repo.gblob(@rev + ':' + @name))
   end
 
   # save a file into the _attachments directory
@@ -112,8 +113,8 @@ class Page
 
     commit_message = "uploaded #{filename} for #{@name}"
     begin
-      $repo.add(new_file)
-      $repo.commit(commit_message)
+      repo.add(new_file)
+      repo.commit(commit_message)
     rescue
       # FIXME why!??
       nil
@@ -127,8 +128,8 @@ class Page
 
       commit_message = "removed #{file} for #{@name}"
       begin
-        $repo.remove(file_path)
-        $repo.commit(commit_message)
+        repo.remove(file_path)
+        repo.commit(commit_message)
       rescue
         # FIXME why is this here!?
         nil
@@ -145,6 +146,9 @@ class Page
     end
   end
 
+  def repo
+    GitWiki::GitRepo.gitwiki_instance
+  end
 
   class Attachment
     attr_accessor :path, :page_name

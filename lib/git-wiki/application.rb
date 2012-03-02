@@ -1,9 +1,10 @@
 require 'fileutils'
 require 'sinatra'
 require 'sinatra/content_for'
-require 'git-wiki/environment'
 require 'git-wiki/config'
 require 'git-wiki/authentication'
+require 'git-wiki/gitrepo'
+require 'git-wiki/page'
 require 'time-ago-in-words'
 require 'encrypted_cookie'
 require 'sinatra/flash'
@@ -52,10 +53,12 @@ module GitWiki
       redirect '/'
     end
 
+    donotsave_paths = %w{ /logout /favicon.ico }
     before do
       unless request.path == "/login"
         unless session[:username]
           session[:saved_path] = request.path
+          session[:saved_path] = "/" if donotsave_paths.includes?(request.path)
           redirect '/login'
         end
       end
@@ -65,7 +68,7 @@ module GitWiki
     # end of user auth
     #
 
-    get('/') { redirect "/#{HOMEPAGE}" }
+    get('/') { redirect "/#{GitWiki::Config[:homepage]}" }
     
     # page paths
     
@@ -125,7 +128,7 @@ module GitWiki
     # application paths (/a/ namespace)
     
     get '/a/list' do
-      pages = $repo.log.first.gtree.children
+      pages = repo.log.first.gtree.children
       @menu = Page.new("menu")
       @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
       show(:list, 'Listing pages')
@@ -141,66 +144,66 @@ module GitWiki
     get '/a/tarball' do
       header 'Content-Type' => 'application/x-gzip'
       header 'Content-Disposition' => 'filename=archive.tgz'
-      archive = $repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
+      archive = repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
       File.open(archive).read
     end
     
     get '/a/branches' do
       @menu = Page.new("menu")
-      @branches = $repo.branches
+      @branches = repo.branches
       show :branches, "Branches List"
     end
     
     get '/a/branch/:branch' do
-      $repo.checkout(params[:branch])
-      redirect '/' + HOMEPAGE
+      repo.checkout(params[:branch])
+      redirect '/' + GitWiki::Config[:homepage]
     end
     
     get '/a/history' do
       @menu = Page.new("menu")
-      @history = $repo.log
+      @history = repo.log
       show :branch_history, "Branch History"
     end
     
     get '/a/revert_branch/:sha' do
-      $repo.with_temp_index do
-        $repo.read_tree params[:sha]
-        $repo.checkout_index
-        $repo.commit('reverted branch')
+      repo.with_temp_index do
+        repo.read_tree params[:sha]
+        repo.checkout_index
+        repo.commit('reverted branch')
       end
       redirect '/a/history'
     end
     
     get '/a/merge_branch/:branch' do
-      $repo.merge(params[:branch])
-      redirect '/' + HOMEPAGE
+      repo.merge(params[:branch])
+      redirect '/' + GitWiki::Config[:homepage]
     end
     
     get '/a/delete_branch/:branch' do
-      $repo.branch(params[:branch]).delete
+      repo.branch(params[:branch]).delete
       redirect '/a/branches'
     end
     
     post '/a/new_branch' do
-      $repo.branch(params[:branch]).create
-      $repo.checkout(params[:branch])
+      repo.branch(params[:branch]).create
+      repo.checkout(params[:branch])
       if params[:type] == 'blank'
         # clear out the branch
-        $repo.chdir do
+        repo.chdir do
           Dir.glob("*").each do |f|
             File.unlink(f)
-            $repo.remove(f)
+            repo.remove(f)
           end
           touchfile
-          $repo.commit('clean branch start')
+          repo.commit('clean branch start')
         end
       end
       redirect '/a/branches'
     end
     
     post '/a/new_remote' do
-      $repo.add_remote(params[:branch_name], params[:branch_url])
-      $repo.fetch(params[:branch_name])
+      repo.add_remote(params[:branch_name], params[:branch_url])
+      repo.fetch(params[:branch_name])
       redirect '/a/branches'
     end
     
@@ -208,7 +211,7 @@ module GitWiki
       @menu = Page.new("menu")
       @search = params[:search]
       @titles = search_on_filename(@search)
-      @grep = $repo.grep(@search, nil, :ignore_case => true)
+      @grep = repo.grep(@search, nil, :ignore_case => true)
       [@titles, @grep].each do |x|
         puts x.inspect
         x.values.each {|v| v.each { |w| w.last.gsub!(@search, "<mark>#{escape_html @search}</mark>") } }
@@ -243,11 +246,11 @@ module GitWiki
     # support methods
     def search_on_filename(search)
       needle = search.as_wiki_link
-      pagenames = $repo.log.first.gtree.children.keys # our haystack
+      pagenames = repo.log.first.gtree.children.keys # our haystack
       titles = {}
       pagenames.each do |page|
         next unless page.include? needle
-        current_branch_sha1 = $repo.log.first
+        current_branch_sha1 = repo.log.first
         titles["#{current_branch_sha1}:#{page}"] = page.map {|page| [0, page] }
       end
       titles
@@ -267,14 +270,17 @@ module GitWiki
     
     def touchfile
       # adds meta file to repo so we have somthing to commit initially
-      $repo.chdir do
+      repo.chdir do
         f = File.new(".meta",  "w+")
-        f.puts($repo.current_branch)
+        f.puts(repo.current_branch)
         f.close
-        $repo.add('.meta')
+        repo.add('.meta')
       end
     end
 
+    def repo
+      GitWiki::GitRepo.gitwiki_instance
+    end
   end
 end
 

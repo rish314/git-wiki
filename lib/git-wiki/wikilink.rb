@@ -1,3 +1,4 @@
+
 module GitWiki
   class WikiLink
     # Pre-formatted code blocks are used for writing about programming or markup

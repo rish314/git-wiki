@@ -5,9 +5,10 @@ module GitWiki
   class Config
     extend(Mixlib::Config)
 
-    homepage            'Home'
+    homepage            'home'
     extension           ''
     repository          "#{ENV['HOME']}/wiki"
+    attachments_dir     "_attachments"
 
     cookie_key          'gitwiki.session'
     cookie_domain       nil
@@ -15,5 +16,6 @@ module GitWiki
     cookie_expire_after 86400 * 14
     cookie_secret       'SETTHIS'
 
+    htpasswd_file       File.join(File.dirname(__FILE__), '..', '..', 'htpasswd')
   end
 end
