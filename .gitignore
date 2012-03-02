@@ -7,5 +7,5 @@
 .directory
 .*.kate-swp
 .bundle
-config.rb
+environment.rb
 htpasswd

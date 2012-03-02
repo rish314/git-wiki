@@ -30,7 +30,7 @@ module GitWiki
     end
   
     def self.load_passwords
-      @htpasswd = IO.read(GitWiki::Config[:htpasswd_file]).each_line.each_with_object({}) do |line, hash|
+      @htpasswd = IO.read(GitWiki::Environment[:htpasswd_file]).each_line.each_with_object({}) do |line, hash|
         user, crypt = line.chomp.split(/:/)
         hash[user] = crypt
       end

@@ -3,11 +3,11 @@
     <a href="/<%= @page.name %>" class="nav_link">back</a>
     &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
     <% if @page.tracked? %>
-      &bull; <a href="/h/<%= @page.name %>" class="nav_link">history</a>
+      &bull; <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
     <% end %>
   </nav>
 
-  <h1>Editing <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
+  <h1>Editing <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
 
   <% if files = @page.attachments %>
     <section class="attachments">
@@ -29,7 +29,7 @@
     </section>
   <% end %>
 
-  <form method="post" action="/e/<%= @page.name %>">
+  <form method="post" action="/page/edit/<%= @page.name %>">
     <textarea name="body" class="body"><%= @page.raw_body %></textarea>
     <label for="message">Message:</label>
     <textarea name="message" rows="4" class="message"></textarea>

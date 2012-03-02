@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'sinatra'
 require 'sinatra/content_for'
-require 'git-wiki/config'
+require 'git-wiki/environment'
 require 'git-wiki/authentication'
 require 'git-wiki/gitrepo'
 require 'git-wiki/page'
@@ -13,11 +13,11 @@ module GitWiki
   class Application < Sinatra::Base
 
     use Rack::Session::EncryptedCookie,
-      :key => GitWiki::Config[:cookie_key],
-      :domain => GitWiki::Config[:cookie_domain],
-      :path => GitWiki::Config[:cookie_path],
-      :expire_after => GitWiki::Config[:cookie_expire_after],
-      :secret => GitWiki::Config[:cookie_secret]
+      :key => GitWiki::Environment[:cookie_key],
+      :domain => GitWiki::Environment[:cookie_domain],
+      :path => GitWiki::Environment[:cookie_path],
+      :expire_after => GitWiki::Environment[:cookie_expire_after],
+      :secret => GitWiki::Environment[:cookie_secret]
 
     set :app_file, __FILE__
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
@@ -68,60 +68,61 @@ module GitWiki
     # end of user auth
     #
 
-    get('/') { redirect "/#{GitWiki::Config[:homepage]}" }
+    get('/') { redirect "/page/show/#{GitWiki::Environment[:homepage]}" }
     
     # page paths
     
-    get '/:page' do
+    get '/page/show/*' do |page|
       @menu = Page.new("menu")
-      @page = Page.new(params[:page])
-      @page.tracked? ? show(:show, @page.name) : redirect('/e/' + @page.name)
+      @page = Page.new(page)
+      @page.tracked? ? show(:show, @page.name) : redirect('/page/edit/' + @page.name)
     end
     
-    get '/:page/raw' do
-      @page = Page.new(params[:page])
+    get '/page/raw/*' do |page|
+      @page = Page.new(page)
       send_data @page.raw_body, :type => 'text/plain', :disposition => 'inline'
     end
     
-    get '/:page/append' do
-      @page = Page.new(params[:page])
-      @page.update(@page.raw_body + "\n\n" + params[:text], params[:message])
-      redirect '/' + @page.name
-    end
+#    get '/:page/append' do
+#      @page = Page.new(params[:page])
+#      @page.update(@page.raw_body + "\n\n" + params[:text], params[:message])
+#      redirect '/' + @page.name
+#    end
     
-    get '/e/:page' do
+    get '/page/edit/*' do |page|
       @menu = Page.new("menu")
-      @page = Page.new(params[:page])
+      @page = Page.new(page)
       show :edit, "Editing #{@page.name}"
     end
     
-    post '/e/:page' do
+    post '/page/edit/*' do |page|
       @menu = Page.new("menu")
-      @page = Page.new(params[:page])
+      @page = Page.new(page)
       @page.update(params[:body], params[:message])
-      redirect '/' + @page.name
+      redirect '/page/show/' + @page.name
     end
     
-    post '/eip/:page' do
-      @page = Page.new(params[:page])
+    post '/page/eip/*' do |page|
+      @page = Page.new(page)
       @page.update(params[:body])
       @page.body
     end
     
-    get '/h/:page' do
+    get '/page/history/*' do |page|
       @menu = Page.new("menu")
-      @page = Page.new(params[:page])
+      @page = Page.new(page)
       show :history, "History of #{@page.name}"
     end
     
-    get '/h/:page/:rev' do
+    get '/page/history/*' do
       @menu = Page.new("menu")
-      @page = Page.new(params[:page], params[:rev])
+      @page = Page.new(page, params[:rev])
       show :show, "#{@page.name} (version #{params[:rev]})"
     end
     
-    get '/d/:page/:rev' do
-      @page = Page.new(params[:page])
+    get '/page/diff/*/*' do |page, rev|
+      puts "page = #{page}, rev = #{rev}"
+      @page = Page.new(page)
       show :delta, "Diff of #{@page.name}"
     end
     
@@ -156,7 +157,7 @@ module GitWiki
     
     get '/a/branch/:branch' do
       repo.checkout(params[:branch])
-      redirect '/' + GitWiki::Config[:homepage]
+      redirect '/page/show/' + GitWiki::Environment[:homepage]
     end
     
     get '/a/history' do
@@ -176,7 +177,7 @@ module GitWiki
     
     get '/a/merge_branch/:branch' do
       repo.merge(params[:branch])
-      redirect '/' + GitWiki::Config[:homepage]
+      redirect '/page/show/' + GitWiki::Environment[:homepage]
     end
     
     get '/a/delete_branch/:branch' do
@@ -229,13 +230,13 @@ module GitWiki
     post '/a/file/upload/:page' do
       @page = Page.new(params[:page])
       @page.save_file(params[:file], params[:name])
-      redirect '/e/' + @page.name
+      redirect '/page/edit/' + @page.name
     end
     
     get '/a/file/delete/:page/:file.:ext' do
       @page = Page.new(params[:page])
       @page.delete_file(params[:file] + '.' + params[:ext])
-      redirect '/e/' + @page.name
+      redirect '/page/edit/' + @page.name
     end
     
     get '/_attachment/:page/:file.:ext' do
@@ -258,7 +259,7 @@ module GitWiki
     
     # returns an absolute url
     def page_url(page)
-      "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}/#{page}"
+      "#{request.env["rack.url_scheme"]}://#{request.env["HTTP_HOST"]}/page/show/#{page}"
     end
     
     private
@@ -281,6 +282,7 @@ module GitWiki
     def repo
       GitWiki::GitRepo.gitwiki_instance
     end
+    
   end
 end
 

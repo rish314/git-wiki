@@ -11,11 +11,11 @@ module GitWiki
     MARKDOWN_PRE = /^\ {4}|\t/
   
     # Match [[Page]] or even [[a page]] just like in wikipedia and gollum
-    GIT_WIKI_SIMPLE_LINK = /\[\[([\w\s\+\-\_]+)\]\]/
+    GIT_WIKI_SIMPLE_LINK = /\[\[([\w\s\+\-\_\/]+)\]\]/
   
     # Match [[Texas|Lone Star state]] just like wikipedia and unlike gollum
     # (gollum reverses the order of things)
-    GIT_WIKI_COMPLEX_LINK = /\[\[([\w\s]+)\|([\w\s]+)\]\]/
+    GIT_WIKI_COMPLEX_LINK = /\[\[([\w\s\+\-\_\/]+)\|([\w\s]+)\]\]/
   
     # Replace things that are obviously meant to be a url:
     #   http(s) or ftp or file then a colon and then some number of slashes,
@@ -36,11 +36,11 @@ module GitWiki
           # self.gsub!(/<\/?nowiki>/,'')
           line.gsub!(GIT_WIKI_SIMPLE_LINK) do
             link = $1
-            '[%s](/%s)' % [link, as_wiki_link(link)]
+            '[%s](/page/show/%s)' % [link, as_wiki_link(link)]
           end
           line.gsub!(GIT_WIKI_COMPLEX_LINK) do
             link, text = $1, $2
-            '[%s](/%s)' % [text, as_wiki_link(link)]
+            '[%s](/page/show/%s)' % [text, as_wiki_link(link)]
           end
           line.gsub!(GIT_WIKI_OBVIOUS_URI) { '<%s>' % $& }
         end

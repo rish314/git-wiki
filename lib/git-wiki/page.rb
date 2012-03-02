@@ -12,11 +12,11 @@ class Page
   end
 
   def filename
-    @filename ||= File.join(GitWiki::Config[:repository], @name)
+    @filename ||= File.join(GitWiki::Environment[:repository], @name)
   end
 
   def attach_dir
-    @attach_dir ||= File.join(GitWiki::Config[:repository], GitWiki::Config[:attachments_dir], @name.downcase)
+    @attach_dir ||= File.join(GitWiki::Environment[:repository], GitWiki::Environment[:attachments_dir], @name.downcase)
   end
 
   def body
@@ -40,6 +40,10 @@ class Page
   end
 
   def update(content, message = nil)
+    enclosing_dir = File.dirname(filename)
+    unless File.exists?(enclosing_dir)
+      FileUtils.mkdir_p(enclosing_dir)
+    end
     File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
@@ -140,7 +144,7 @@ class Page
 
   def attachments
     if File.exists?(attach_dir)
-      return Dir.glob(File.join(attach_dir, '*')).map { |f| Attachment.new(f, unwiki(@name)) }
+      return Dir.glob(File.join(attach_dir, '*')).map { |f| Attachment.new(f, @name) }
     else
       false
     end
