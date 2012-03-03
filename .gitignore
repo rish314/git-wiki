@@ -7,5 +7,7 @@
 .directory
 .*.kate-swp
 .bundle
+
+# these are config files, probably with secrets in them you don't want in version control
 environment.rb
 htpasswd
