@@ -58,7 +58,7 @@ module GitWiki
       unless request.path == "/login"
         unless session[:username]
           session[:saved_path] = request.path
-          session[:saved_path] = "/" if donotsave_paths.includes?(request.path)
+          session[:saved_path] = "/" if donotsave_paths.include?(request.path)
           redirect '/login'
         end
       end
