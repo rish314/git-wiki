@@ -11,4 +11,5 @@ gem 'time-ago-in-words'
 gem 'encrypted_cookie'
 gem 'mixlib-config'
 gem 'sinatra-flash'
+gem 'unicorn'
 
