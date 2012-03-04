@@ -171,6 +171,7 @@ module GitWiki
         repo.read_tree params[:sha]
         repo.checkout_index
         repo.commit('reverted branch')
+        repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
       end
       redirect '/a/history'
     end
@@ -197,6 +198,7 @@ module GitWiki
           end
           touchfile
           repo.commit('clean branch start')
+          repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
         end
       end
       redirect '/a/branches'

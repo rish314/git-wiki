@@ -17,5 +17,7 @@ module GitWiki
     cookie_secret       'SETTHIS'
 
     htpasswd_file       File.join(File.dirname(__FILE__), '..', '..', 'htpasswd')
+
+    git_remote          nil
   end
 end

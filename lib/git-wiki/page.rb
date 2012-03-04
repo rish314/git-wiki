@@ -51,6 +51,7 @@ class Page
     commit_message += ' : ' + message if message && message.length > 0
     repo.add(repo_path)
     repo.commit(commit_message)
+    repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
     @body = nil; @raw_body = nil  # huh?
     @body
   end
@@ -115,6 +116,7 @@ class Page
     commit_message = "uploaded #{filename} for #{@name}"
     repo.add(new_file)
     repo.commit(commit_message)
+    repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
   end
 
   def delete_file(file)
@@ -125,6 +127,7 @@ class Page
       commit_message = "removed #{file} for #{@name}"
       repo.remove(file_path)
       repo.commit(commit_message)
+      repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
 
     end
   end
