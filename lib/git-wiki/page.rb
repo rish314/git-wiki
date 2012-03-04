@@ -12,11 +12,11 @@ class Page
   end
 
   def filename
-    @filename ||= File.join(GitWiki::Environment[:repository], @name)
+    @filename ||= File.join(GitWiki::Environment[:repository], @name + GitWiki::Environment[:extension] )
   end
 
   def attach_dir
-    @attach_dir ||= File.join(GitWiki::Environment[:repository], GitWiki::Environment[:attachments_dir], @name.downcase)
+    @attach_dir ||= File.join(GitWiki::Environment[:repository], GitWiki::Environment[:attachments_dir], @name )
   end
 
   def body
@@ -41,9 +41,7 @@ class Page
 
   def update(content, message = nil)
     enclosing_dir = File.dirname(filename)
-    unless File.exists?(enclosing_dir)
-      FileUtils.mkdir_p(enclosing_dir)
-    end
+    FileUtils.mkdir_p(enclosing_dir) unless File.exists?(enclosing_dir)
     File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
@@ -116,13 +114,8 @@ class Page
     f.close
 
     commit_message = "uploaded #{filename} for #{@name}"
-    begin
-      repo.add(new_file)
-      repo.commit(commit_message)
-    rescue
-      # FIXME why!??
-      nil
-    end
+    repo.add(new_file)
+    repo.commit(commit_message)
   end
 
   def delete_file(file)
@@ -131,13 +124,8 @@ class Page
       File.unlink(file_path)
 
       commit_message = "removed #{file} for #{@name}"
-      begin
-        repo.remove(file_path)
-        repo.commit(commit_message)
-      rescue
-        # FIXME why is this here!?
-        nil
-      end
+      repo.remove(file_path)
+      repo.commit(commit_message)
 
     end
   end

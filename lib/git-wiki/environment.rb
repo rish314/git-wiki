@@ -6,7 +6,7 @@ module GitWiki
     extend(Mixlib::Config)
 
     homepage            'home'
-    extension           ''
+    extension           '.md'
     repository          "#{ENV['HOME']}/wiki"
     attachments_dir     "_attachments"
 
