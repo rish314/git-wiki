@@ -13,9 +13,9 @@
       <img src="http://gravatar.com/avatar/<%= Digest::MD5.hexdigest(c.author.email.downcase) %>?s=12&d=identicon"/>
       <%= c.committer_date.time_ago_in_words %>
       &mdash;
-      <a href="/h/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
+      <a href="/page/commit/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
       <% unless @page.history.first == c %>
-        &bull; <a href="/d/<%= @page.name %>/<%= c.sha %>">diff</a>
+        &bull; <a href="/page/diff/<%= @page.name %>/<%= c.sha %>">diff</a>
       <% end %>
     </li>
   <% end %>

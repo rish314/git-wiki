@@ -8,8 +8,8 @@
       <% @pages.each do |page| %>
         <li>
           <strong><a href="/<%= page.name %>"><%= page.name %></a></strong> &mdash; 
-          <a href="/e/<%= page.name %>">edit</a> &bull;
-          <a href="/h/<%= page.name %>">history</a> &bull;
+          <a href="/page/edit/<%= page.name %>">edit</a> &bull;
+          <a href="/page/history/<%= page.name %>">history</a> &bull;
         </li>  
       <% end %>
     </ul>

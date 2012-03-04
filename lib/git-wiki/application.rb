@@ -114,10 +114,10 @@ module GitWiki
       show :history, "History of #{@page.name}"
     end
     
-    get '/page/history/*' do
+    get '/page/commit/*/*' do |page, rev|
       @menu = Page.new("menu")
-      @page = Page.new(page, params[:rev])
-      show :show, "#{@page.name} (version #{params[:rev]})"
+      @page = Page.new(page, rev)
+      show :show, "#{@page.name} (version #{rev})"
     end
     
     get '/page/diff/*/*' do |page, rev|
