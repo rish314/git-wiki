@@ -11,8 +11,12 @@ class Page
     @rev = rev
   end
 
+  def repo_path
+    @name + GitWiki::Environment[:extension]
+  end
+
   def filename
-    @filename ||= File.join(GitWiki::Environment[:repository], @name + GitWiki::Environment[:extension] )
+    @filename ||= File.join(GitWiki::Environment[:repository], repo_path )
   end
 
   def attach_dir
@@ -45,36 +49,31 @@ class Page
     File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
-    begin
-      repo.add(@name)
-      repo.commit(commit_message)
-    rescue
-      # FIXME I don't like this, why is there a catchall here?
-      nil
-    end
-    @body = nil; @raw_body = nil
+    repo.add(repo_name)
+    repo.commit(commit_message)
+    @body = nil; @raw_body = nil  # huh?
     @body
   end
 
   def tracked?
-    repo.ls_files.keys.include?(@name)
+    repo.ls_files.keys.include?(repo_path)
   end
 
   def history
     return nil unless tracked?
-    @history ||= repo.log.path(@name)
+    @history ||= repo.log.path(repo_path)
   end
 
   def delta(rev)
-    repo.diff(previous_commit, rev).path(@name).patch
+    repo.diff(previous_commit, rev).path(repo_path).patch
   end
 
   def commit
-    @commit ||= repo.log.object(@rev || 'master').path(@name).first
+    @commit ||= repo.log.object(@rev || 'master').path(repo_path).first
   end
 
   def previous_commit
-    @previous_commit ||= repo.log(2).object(@rev || 'master').path(@name).to_a[1]
+    @previous_commit ||= repo.log(2).object(@rev || 'master').path(repo_path).to_a[1]
   end
 
   def next_commit
@@ -96,7 +95,7 @@ class Page
   end
 
   def blob
-    @blob ||= (repo.gblob(@rev + ':' + @name))
+    @blob ||= (repo.gblob(@rev + ':' + repo_path))
   end
 
   # save a file into the _attachments directory
