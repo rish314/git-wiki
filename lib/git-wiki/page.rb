@@ -49,7 +49,7 @@ class Page
     File.open(filename, 'w') { |f| f << content }
     commit_message = tracked? ? "edited #{@name}" : "created #{@name}"
     commit_message += ' : ' + message if message && message.length > 0
-    repo.add(repo_name)
+    repo.add(repo_path)
     repo.commit(commit_message)
     @body = nil; @raw_body = nil  # huh?
     @body
