@@ -134,8 +134,8 @@ module GitWiki
     
     # application paths (/a/ namespace)
     
-    get '/a/list' do
-      pages = repo.log.first.gtree.children
+    get '/repo/list' do
+      pages = repo.ls_files.keys.map { |p| p.sub(/#{GitWiki::Environment[:extension]}$/, "") }
       @menu = Page.new("menu")
       @pages = pages.select { |f,bl| f[0,1] != '_'}.sort.map { |name, blob| Page.new(name) } rescue []
       show(:list, 'Listing pages')
