@@ -5,7 +5,7 @@
     <a href="/page/edit/<%= @page.name %>" class="nav_link">edit</a>
   </nav>
 
-  <h1>History of <a href="/<%= @page.name %>"><%= @page.name %></a></h1>
+  <h1>History of <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
 
   <ul>
   <% @page.history.each do |c| %>

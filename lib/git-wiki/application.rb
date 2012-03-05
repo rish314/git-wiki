@@ -21,6 +21,8 @@ module GitWiki
 
     set :app_file, __FILE__
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+    
+    enable :logging
 
     register Sinatra::Flash
 
@@ -114,13 +116,17 @@ module GitWiki
       show :history, "History of #{@page.name}"
     end
     
-    get '/page/commit/*/*' do |page, rev|
+    get '/page/commit/*' do |splat|
+      splat =~ /(.*)\/(.*)/
+      page, rev = $1, $2
       @menu = Page.new("menu")
       @page = Page.new(page, rev)
       show :show, "#{@page.name} (version #{rev})"
     end
     
-    get '/page/diff/*/*' do |page, rev|
+    get '/page/diff/*' do |splat|
+      splat =~ /(.*)\/(.*)/
+      page, rev = $1, $2
       puts "page = #{page}, rev = #{rev}"
       @page = Page.new(page)
       show :delta, "Diff of #{@page.name}"

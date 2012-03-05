@@ -1,6 +1,6 @@
 <article>
   <nav role="article">
-    <a href="/<%= @page.name %>" class="nav_link">back</a>
+    <a href="/page/show/<%= @page.name %>" class="nav_link">back</a>
     &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
     <% if @page.tracked? %>
       &bull; <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
