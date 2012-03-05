@@ -19,5 +19,6 @@ module GitWiki
     htpasswd_file       File.join(File.dirname(__FILE__), '..', '..', 'htpasswd')
 
     git_remote          nil
+    git_remote_url      nil
   end
 end

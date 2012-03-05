@@ -57,7 +57,6 @@ class Page
   end
 
   def tracked?
-    puts repo_path
     repo.ls_files.keys.include?(repo_path)
   end
 
