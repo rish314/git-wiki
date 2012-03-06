@@ -9,7 +9,7 @@ module GitWiki
           @gitwiki_instance = Git.clone(GitWiki::Environment[:git_remote_url], GitWiki::Environment[:repository])
         else
           @gitwiki_instance = Git.init(GitWiki::Environment[:repository])
-        else
+        end
       end
       return @gitwiki_instance
     end
