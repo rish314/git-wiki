@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+LIB_PATH = File.expand_path(File.join(File.dirname(__FILE__), '../lib'))
+$:.unshift LIB_PATH
+
+require 'git-wiki/environment'
+GitWiki::Environment.from_file(File.join(File.dirname(__FILE__), '../environment.rb'))
+
+require 'git-wiki/gitrepo'
+
+repo = GitWiki::GitRepo.gitwiki_instance
+
+# punting completely on handling merge conflicts
+repo.pull
+
