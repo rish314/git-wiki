@@ -129,9 +129,17 @@ module GitWiki
     get '/page/diff/*' do |splat|
       splat =~ /(.*)\/(.*)/
       page, rev = $1, $2
-      puts "page = #{page}, rev = #{rev}"
-      @page = Page.new(page)
+      @page = Page.new(page, rev)
       show :delta, "Diff of #{@page.name}"
+    end
+    
+    get '/page/patch/*' do |splat|
+      splat =~ /(.*)\/(.*)/
+      page, rev = $1, $2
+      @page = Page.new(page)
+      header 'Content-Type' => 'text/x-diff'
+      header 'Content-Disposition' => 'filename=patch.diff'
+      @page.delta(rev)
     end
    
     #
@@ -145,20 +153,11 @@ module GitWiki
       show(:list, 'Listing pages')
     end
     
-    get '/repo/patch/*' do |splat|
-      splat =~ /(.*)\/(.*)/
-      page, rev = $1, $2
-      @page = Page.new(page)
-      header 'Content-Type' => 'text/x-diff'
-      header 'Content-Disposition' => 'filename=patch.diff'
-      @page.delta(rev)
-    end
-    
     get '/repo/tarball' do
       archive = repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
       send_file archive,
         :type => 'application/x-gzip',
-        :disposition => 'filename=archive.tgz'
+        :disposition => 'filename=wiki-archive.tgz'
     end
     
     get '/repo/branches' do

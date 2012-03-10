@@ -76,8 +76,8 @@ class Page
     @history ||= repo.log.path(repo_path)
   end
 
-  def delta(rev)
-    repo.diff(previous_commit, rev).path(repo_path).patch
+  def delta
+    repo.diff(previous_commit, @rev).path(repo_path).patch
   end
 
   def commit

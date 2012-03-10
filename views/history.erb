@@ -8,13 +8,14 @@
   <h1>History of <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
 
   <ul>
+  <% last = @page.history.each { |c| c } %>
   <% @page.history.each do |c| %>
     <li>
       <img src="http://gravatar.com/avatar/<%= Digest::MD5.hexdigest(c.author.email.downcase) %>?s=12&d=identicon"/>
       <%= c.committer_date.time_ago_in_words %>
       &mdash;
       <a href="/page/commit/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
-      <% unless @page.history.first == c %>
+      <% unless c == last %>
         &bull; <a href="/page/diff/<%= @page.name %>/<%= c.sha %>">diff</a>
       <% end %>
     </li>
