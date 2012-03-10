@@ -42,7 +42,6 @@ module GitWiki
             link, text = $1, $2
             '[%s](/page/show/%s)' % [text, as_wiki_link(link)]
           end
-          line.gsub!(GIT_WIKI_OBVIOUS_URI) { '<%s>' % $& }
         end
         with_links << line
       end

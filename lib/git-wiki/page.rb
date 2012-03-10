@@ -1,7 +1,7 @@
 
 require 'git-wiki/wikilink'
 require 'rubypants'
-require 'bluecloth'
+require 'redcarpet'
 
 class Page
   attr_reader :name
@@ -24,7 +24,18 @@ class Page
   end
 
   def body
-    @body ||= RubyPants.new(BlueCloth.new(GitWiki::WikiLink.new(raw_body).wiki_linked, :tables => true).to_html).to_html
+    markdown = Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML,
+      :no_intra_emphasis => true,
+      :tables => true,
+      :fenced_code_blocks => true,
+      :autolink => true,
+      :striketrough => true,
+      :lax_html_blocks => true,
+      :space_after_headers => true,
+      :superscript => true
+    )
+    @body ||= RubyPants.new(markdown.render(GitWiki::WikiLink.new(raw_body).wiki_linked)).to_html
   end
 
   def branch_name
