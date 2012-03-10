@@ -1,7 +1,6 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    bluecloth (2.2.0)
     encrypted_cookie (0.0.4)
     git (1.2.5)
     kgio (2.7.2)
@@ -10,6 +9,7 @@ GEM
     rack-protection (1.2.0)
       rack
     raindrops (0.8.0)
+    redcarpet (2.1.0)
     rubypants (0.2.0)
     shotgun (0.9)
       rack (>= 1.0)
@@ -32,10 +32,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bluecloth
   encrypted_cookie
   git
   mixlib-config
+  redcarpet
   rubypants
   shotgun
   sinatra
