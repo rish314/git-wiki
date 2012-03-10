@@ -9,9 +9,9 @@
       <strong><%= b.full %></strong>
     <% else %>
       <%= b.full %>
-      <a href="/a/branch/<%= b.name %>">switch</a> &bull;
-      <a href="/a/merge_branch/<%= b.name %>">merge</a>
-      <!-- &bull; <a href="/a/delete_branch/<%= b.name %>">delete</a> -->
+      <a href="/repo/branch/<%= b.name %>">switch</a> &bull;
+      <a href="/repo/merge_branch/<%= b.name %>">merge</a>
+      <!-- &bull; <a href="/repo/delete_branch/<%= b.name %>">delete</a> -->
     <% end %>
     </li>
   <% end %>
@@ -20,7 +20,7 @@
 
 <article>
   <h1>New Branch</h1>
-  <form method="post" action="/a/new_branch" class="niceform">
+  <form method="post" action="/repo/new_branch" class="niceform">
     <label for="name">name</label>
     <input type="text" name="branch" />
     <br />
@@ -44,7 +44,7 @@
 
 <article>
   <h1>New Remote Branch</h1>
-  <form method="post" action="/a/new_remote" class="niceform">
+  <form method="post" action="/repo/new_remote" class="niceform">
     <label for="branch_name">name</label>
     <input type="text" name="branch_name">
     <br />

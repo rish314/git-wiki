@@ -1,7 +1,7 @@
 <h1>Branch History</h1>
 
 <div class="sub_nav">
-  <a href="/a/branches" class="nav_link"><%= repo.current_branch %> branch</a><br />
+  <a href="/repo/branches" class="nav_link"><%= repo.current_branch %> branch</a><br />
   <span class="sub_nav details"><%= @history.size %> commits</span>
 </div>
 
@@ -11,7 +11,7 @@
   <% @history.each do |commit| %>
     <li>
       <% if commit != @history.first %>
-        <a href="/a/revert_branch/<%= commit.sha %>" title="Click to revert to this revision." onclick="return confirm('Are you sure you want to revert to this revision?');">
+        <a href="/repo/revert_branch/<%= commit.sha %>" title="Click to revert to this revision." onclick="return confirm('Are you sure you want to revert to this revision?');">
          <%= commit.date.time_ago_in_words %>
         </a>
       <% else %>

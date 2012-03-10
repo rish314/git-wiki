@@ -71,8 +71,10 @@ module GitWiki
     #
 
     get('/') { redirect "/page/show/#{GitWiki::Environment[:homepage]}" }
-    
-    # page paths
+   
+    #
+    # page namespace
+    #
     
     get '/page/show/*' do |page|
       @menu = Page.new("menu")
@@ -131,9 +133,11 @@ module GitWiki
       @page = Page.new(page)
       show :delta, "Diff of #{@page.name}"
     end
-    
-    # application paths (/a/ namespace)
-    
+   
+    #
+    # repo namespace
+    #
+
     get '/repo/list' do
       pages = repo.ls_files.keys.map { |p| p.sub(/#{GitWiki::Environment[:extension]}$/, "") }
       @menu = Page.new("menu")
@@ -141,58 +145,60 @@ module GitWiki
       show(:list, 'Listing pages')
     end
     
-    get '/a/patch/:page/:rev' do
-      @page = Page.new(params[:page])
+    get '/repo/patch/*' do |splat|
+      splat =~ /(.*)\/(.*)/
+      page, rev = $1, $2
+      @page = Page.new(page)
       header 'Content-Type' => 'text/x-diff'
       header 'Content-Disposition' => 'filename=patch.diff'
-      @page.delta(params[:rev])
+      @page.delta(rev)
     end
     
-    get '/a/tarball' do
-      header 'Content-Type' => 'application/x-gzip'
-      header 'Content-Disposition' => 'filename=archive.tgz'
+    get '/repo/tarball' do
       archive = repo.archive('HEAD', nil, :format => 'tgz', :prefix => 'wiki/')
-      File.open(archive).read
+      send_file archive,
+        :type => 'application/x-gzip',
+        :disposition => 'filename=archive.tgz'
     end
     
-    get '/a/branches' do
+    get '/repo/branches' do
       @menu = Page.new("menu")
       @branches = repo.branches
       show :branches, "Branches List"
     end
     
-    get '/a/branch/:branch' do
+    get '/repo/branch/:branch' do
       repo.checkout(params[:branch])
       redirect '/page/show/' + GitWiki::Environment[:homepage]
     end
     
-    get '/a/history' do
+    get '/repo/history' do
       @menu = Page.new("menu")
       @history = repo.log
       show :branch_history, "Branch History"
     end
     
-    get '/a/revert_branch/:sha' do
+    get '/repo/revert_branch/:sha' do
       repo.with_temp_index do
         repo.read_tree params[:sha]
         repo.checkout_index
         repo.commit('reverted branch')
         repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
       end
-      redirect '/a/history'
+      redirect '/repo/history'
     end
     
-    get '/a/merge_branch/:branch' do
+    get '/repo/merge_branch/:branch' do
       repo.merge(params[:branch])
       redirect '/page/show/' + GitWiki::Environment[:homepage]
     end
     
-    get '/a/delete_branch/:branch' do
+    get '/repo/delete_branch/:branch' do
       repo.branch(params[:branch]).delete
-      redirect '/a/branches'
+      redirect '/repo/branches'
     end
     
-    post '/a/new_branch' do
+    post '/repo/new_branch' do
       repo.branch(params[:branch]).create
       repo.checkout(params[:branch])
       if params[:type] == 'blank'
@@ -207,16 +213,20 @@ module GitWiki
           repo.push(repo.remote(GitWiki::Environment[:git_remote])) unless GitWiki::Environment[:git_remote].nil?
         end
       end
-      redirect '/a/branches'
+      redirect '/repo/branches'
     end
     
-    post '/a/new_remote' do
+    post '/repo/new_remote' do
       repo.add_remote(params[:branch_name], params[:branch_url])
       repo.fetch(params[:branch_name])
-      redirect '/a/branches'
+      redirect '/repo/branches'
     end
-    
-    get '/a/search' do
+   
+    #
+    # search namespace
+    #
+
+    get '/search' do
       @menu = Page.new("menu")
       @search = params[:search]
       @titles = search_on_filename(@search)
