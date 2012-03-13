@@ -5,10 +5,12 @@ require 'redcarpet'
 
 class Page
   attr_reader :name
+  attr_reader :rev
 
-  def initialize(name, rev = nil)
+  def initialize(name, rev = 'HEAD')
     @name = name
     @rev = rev
+    @rev = 'HEAD' if @rev == "" 
   end
 
   def repo_path
@@ -81,11 +83,11 @@ class Page
   end
 
   def commit
-    @commit ||= repo.log.object(@rev || 'master').path(repo_path).first
+    @commit ||= repo.log.object(@rev).path(repo_path).first
   end
 
   def previous_commit
-    @previous_commit ||= repo.log(2).object(@rev || 'master').path(repo_path).to_a[1]
+    @previous_commit ||= repo.log(2).object(@rev).path(repo_path).to_a[1]
   end
 
   def next_commit

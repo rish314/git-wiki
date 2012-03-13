@@ -136,10 +136,10 @@ module GitWiki
     get '/page/patch/*' do |splat|
       splat =~ /(.*)\/(.*)/
       page, rev = $1, $2
-      @page = Page.new(page)
-      header 'Content-Type' => 'text/x-diff'
-      header 'Content-Disposition' => 'filename=patch.diff'
-      @page.delta(rev)
+      @page = Page.new(page, rev)
+      content_type 'text/x-diff'
+      headers 'Content-Disposition' => "filename=wiki-#{page.gsub(/\//,'_')}-#{@rev}.diff"
+      @page.delta
     end
    
     #
@@ -269,7 +269,8 @@ module GitWiki
       pagenames.each do |page|
         next unless page.include? needle
         current_branch_sha1 = repo.log.first
-        titles["#{current_branch_sha1}:#{page}"] = page.map {|page| [0, page] }
+        # unfreeze the String page by creating a "new" one
+        titles["#{current_branch_sha1}:#{page}"] = [[0, "#{page}"]] 
       end
       titles
     end
