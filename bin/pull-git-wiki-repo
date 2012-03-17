@@ -2,7 +2,7 @@
 
 real_file = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 
-$: << File.expand_path(File.join(File.dirname( real_file ), "../lib")
+$: << File.expand_path(File.join(File.dirname( real_file ), "../lib"))
 
 require 'git-wiki/environment'
 GitWiki::Environment.from_file(File.join(File.dirname( real_file ), '../environment.rb'))
