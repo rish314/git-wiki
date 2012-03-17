@@ -7,7 +7,7 @@ class Page
   attr_reader :name
   attr_reader :rev
 
-  def initialize(name, rev = 'HEAD')
+  def initialize(name, rev = nil)
     @name = name
     @rev = rev
     @rev = 'HEAD' if @rev == "" 
@@ -79,15 +79,15 @@ class Page
   end
 
   def delta
-    repo.diff(previous_commit, @rev).path(repo_path).patch
+    repo.diff(previous_commit, @rev || 'HEAD').path(repo_path).patch
   end
 
   def commit
-    @commit ||= repo.log.object(@rev).path(repo_path).first
+    @commit ||= repo.log.object(@rev || 'HEAD').path(repo_path).first
   end
 
   def previous_commit
-    @previous_commit ||= repo.log(2).object(@rev).path(repo_path).to_a[1]
+    @previous_commit ||= repo.log(2).object(@rev || 'HEAD').path(repo_path).to_a[1]
   end
 
   def next_commit
@@ -109,7 +109,7 @@ class Page
   end
 
   def blob
-    @blob ||= (repo.gblob(@rev + ':' + repo_path))
+    @blob ||= (repo.gblob((@rev || 'HEAD') + ':' + repo_path))
   end
 
   # save a file into the _attachments directory
