@@ -32,7 +32,7 @@ class Page
       :tables => true,
       :fenced_code_blocks => true,
       :autolink => true,
-      :striketrough => true,
+      :strikethrough => true,
       :lax_html_blocks => true,
       :space_after_headers => true,
       :superscript => true
