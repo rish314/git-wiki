@@ -55,7 +55,7 @@ module GitWiki
       redirect '/'
     end
 
-    donotsave_paths = %w{ /logout /favicon.ico }
+    donotsave_paths = %w{ /logout /favicon.png /favicon.ico }
     before do
       unless request.path == "/login"
         unless session[:username]

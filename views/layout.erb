@@ -1,33 +1,59 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= @title %></title>
-    <link rel="stylesheet" href="/style.css" type="text/css" media="screen" />
-    <!-- link rel="stylesheet" href="/style.css" type="text/css" media="handheld" /--><!-- TODO-->
-    <!--link rel="stylesheet" href="/code.css" type="text/css" media="screen" /-->
-    <script src="/app.js"></script>
-    <script src="/jquery.min.js"></script>
-    <link rel="icon" type="image/png" href="/icon.png" />
-    <!--script src="/jeditable.min.js"></script-->
-    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/stylesheets/application.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap-responsive.min.css" type="text/css" media="all" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="/javascripts/application.js"></script>
+    <script src="/javascripts/jquery-1.7.2.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+    <link href="/favicon.png" rel="shortcut icon">
     <% yield_content :head %>
   </head>
-  <body>
+
+  <body style="padding-top: 50px;">
     <%= styled_flash %>
-    <header>
-      <form method="get" action="/a/search">
-        <nav role="site">
-          <a href="/" class="nav_link">home</a>
-          <input type="search" id="search_field" name="search" size="30" placeholder="search... [alt+s]" accesskey="S" autofocus />
-          <a href="/repo/branches" class="nav_link">branches</a>
-          <a href="/repo/history" class="nav_link">history</a>
-          <a href="/repo/list" class="nav_link">pages</a>
-          <a href="/repo/tarball" class="nav_link">export</a>
-        </nav>
-      </form>
-    </header>
-    <%= yield %>
-    <footer>powered by a <a href="http://github.com/sr/git-wiki/network">git-wiki</a> fork</footer>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Git-Wiki</a>
+          <div class="container-fluid nav-collapse">
+            <ul class="nav">
+              <li><a href="/">home</a></li>
+           <!--    <li><input type="search" id="search_field" name="search" size="30" placeholder="search... [alt+s]" accesskey="S" autofocus /></li> --!>
+              <li><a href="/repo/branches">branches</a></li>
+              <li><a href="/repo/history">history</a></li>
+              <li><a href="/repo/list">pages</a></li>
+              <li><a href="/repo/tarball">export</a></li>
+            </ul>
+            <form class="navbar-search pull-right">  
+              <input type="search" id="search_field" name="search" class="search-query" placeholder="Search">  
+            </form> 
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <%= yield %>
+
+      <footer>
+        <p>powered by a <a href="http://github.com/sr/git-wiki/network">git-wiki</a> fork</p>
+      </footer>
+
+    </div> <!-- /container -->
+
   </body>
 </html>

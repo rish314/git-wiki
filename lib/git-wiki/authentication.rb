@@ -22,6 +22,7 @@ module GitWiki
       else
         raise "unknown password hash for #{username}"
       end
+      puts "#{crypted} supplied, #{@htpasswd[username]} in htpasswd"
       if @htpasswd[username] == crypted
         true
       else

@@ -1,6 +1,6 @@
+      <div class="row-fluid">
+        <div class="span10">
 <article>
-
-  <nav role="article">
     <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
     &bull; 
 
@@ -30,14 +30,20 @@
     <% else %>
       <a class="greyed">latest</a>
     <% end %>
-  </nav>
-  <aside>
-      <%= @page.updated_at.time_ago_in_words %>
-      <br/>
-      <%= repo.current_branch %> branch
-  </aside>
 
-  <header><h1><%= @page.name.gsub('_', ' ') %></h1></header>
+    <header><h1><%= @page.name.gsub('_', ' ') %></h1></header>
 
-  <%= @page.body %>
-</article>
+    <%= @page.body %>
+</article> 
+        </div>
+        <div class="span2">
+          <div class="well sidebar-nav">
+           <aside>
+             <%= @page.updated_at.time_ago_in_words %>
+             <br/>
+             <%= repo.current_branch %> branch
+           <aside>
+          </div><!--/.well -->
+        </div><!--/span-->
+      </div><!--/row-->
+
