@@ -1,13 +1,13 @@
 <div class="row-fluid">
   <div class="span12">
     <article>
+      <h1>Editing <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
+
       <a href="/page/show/<%= @page.name %>" class="nav_link">back</a>
       &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
       <% if @page.tracked? %>
         &bull; <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
       <% end %>
-
-      <header><h1>Editing <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1></header>
 
   <% if files = @page.attachments %>
     <section class="attachments">
@@ -34,16 +34,13 @@
           <div class="control-group">
             <label class="control-label" for="textarea">Body</label>
             <div class="controls">
-              <textarea class="span12" id="textarea" name="body">
-                <%= @page.raw_body %>
-              </textarea>
+              <textarea class="span11" id="textarea" rows="35" name="body"><%= @page.raw_body %></textarea>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="textarea">Message</label>
             <div class="controls">
-              <textarea class="span12" id="textarea" rows="4" name="message">
-              </textarea>
+              <textarea class="span11" id="textarea" rows="4" name="message"></textarea>
             </div>
           </div>
           <div class="form-actions">
