@@ -35,18 +35,18 @@
       <form class="form-horizontal" method="post" action="/page/edit/<%= @page.name %>">
         <fieldset>
           <div class="control-group">
-            <label class="control-label" for="textarea">Body</label>
-            <div class="controls">
+           <!-- <label class="control-label" for="textarea">Body</label> --!>
+            <div class="controls; margin-left: 0px">
               <textarea class="span11" id="textarea" rows="33" name="body"><%= @page.raw_body %></textarea>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="textarea">Message</label>
-            <div class="controls">
+          <!--  <label class="control-label" for="textarea">Message</label> --!>
+            <div class="controls; margin-left: 0px">
               <textarea class="span11" id="textarea" rows="4" name="message"></textarea>
             </div>
           </div>
-          <div class="form-actions">
+          <div class="form-actions; padding-left: 0px">
             <button type="submit" class="btn btn-primary" value="Save">Save</button>
           </div>
         </fieldset>
