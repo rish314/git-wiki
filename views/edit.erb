@@ -3,10 +3,10 @@
     <article>
 
       <div class="btn-group">
-        <button class="btn" onclick="parent.location='/page/show/<%= @page.name %>'">back</button>
-        <button class="btn" onclick="parent.location='/a/file/upload/<%= @page.name %>'">attach</button>
+        <button class="btn btn-mini btn-primary" onclick="parent.location='/page/show/<%= @page.name %>'">back</button>
+        <button class="btn btn-mini" onclick="parent.location='/a/file/upload/<%= @page.name %>'">attach</button>
         <% if @page.tracked? %>
-        <button class="btn" onClick="parent.location='/page/history/<%= @page.name %>'">history</button>
+        <button class="btn btn-mini" onClick="parent.location='/page/history/<%= @page.name %>'">history</button>
         <% end %>
       </div>
 
