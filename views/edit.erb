@@ -1,13 +1,13 @@
-<article>
-  <nav role="article">
-    <a href="/page/show/<%= @page.name %>" class="nav_link">back</a>
-    &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
-    <% if @page.tracked? %>
-      &bull; <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
-    <% end %>
-  </nav>
+<div class="row-fluid">
+  <div class="span12">
+    <article>
+      <a href="/page/show/<%= @page.name %>" class="nav_link">back</a>
+      &bull; <a href="/a/file/upload/<%= @page.name %>" class="nav_link">attach</a>
+      <% if @page.tracked? %>
+        &bull; <a href="/page/history/<%= @page.name %>" class="nav_link">history</a>
+      <% end %>
 
-  <h1>Editing <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
+      <header><h1>Editing <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1></header>
 
   <% if files = @page.attachments %>
     <section class="attachments">
@@ -29,10 +29,37 @@
     </section>
   <% end %>
 
-  <form method="post" action="/page/edit/<%= @page.name %>">
-    <textarea name="body" class="body"><%= @page.raw_body %></textarea>
-    <label for="message">Message:</label>
-    <textarea name="message" rows="4" class="message"></textarea>
-    <p class="right"><input type="submit" value="Save" class="submit" /></p>
-  </form>
-</article>
+      <form class="form-horizontal" method="post" action="/page/edit/<%= @page.name %>">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="textarea">Body</label>
+            <div class="controls">
+              <textarea class="span12" id="textarea" name="body">
+                <%= @page.raw_body %>
+              </textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="textarea">Message</label>
+            <div class="controls">
+              <textarea class="span12" id="textarea" rows="4" name="message">
+              </textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" value="Save">Save</button>
+          </div>
+        </fieldset>
+      </form>
+
+<!--
+      <form method="post" action="/page/edit/<%= @page.name %>">
+        <textarea name="body" class="body"><%= @page.raw_body %></textarea>
+        <label for="message">Message:</label>
+        <textarea name="message" rows="4" class="message"></textarea>
+        <p class="right"><input type="submit" value="Save" class="submit" /></p>
+      </form>
+--!>
+    </article>
+  </div><!--/span-->
+</div><!--/row-->
