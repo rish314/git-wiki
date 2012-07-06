@@ -231,7 +231,6 @@ module GitWiki
       @titles = search_on_filename(@search)
       @grep = repo.grep(@search, nil, :ignore_case => true)
       [@titles, @grep].each do |x|
-        puts x.inspect
         x.values.each {|v| v.each { |w| w.last.gsub!(@search, "<mark>#{escape_html @search}</mark>") } }
       end
       show :search, 'Search Results'
@@ -263,7 +262,7 @@ module GitWiki
     
     # support methods
     def search_on_filename(search)
-      needle = search.as_wiki_link
+      needle = GitWiki::WikiLink.as_wiki_link(search)
       pagenames = repo.log.first.gtree.children.keys # our haystack
       titles = {}
       pagenames.each do |page|
