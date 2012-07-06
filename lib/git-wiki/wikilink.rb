@@ -31,7 +31,7 @@ module GitWiki
       with_links = ""
       @str.each_line do |line|
         # skip the lines that contain <pre> text (code)
-        unless line =~ MARKDOWN_PRE
+        #unless line =~ MARKDOWN_PRE
           # self.gsub!(/(?!<nowiki>)(?>\b((?:[A-Z]\w+){2,}))(?!<\/nowiki>)/) { |m| "<a href=\"/#{m}\">#{m}</a>" }
           # self.gsub!(/<\/?nowiki>/,'')
           line.gsub!(GIT_WIKI_SIMPLE_LINK) do
@@ -42,7 +42,7 @@ module GitWiki
             link, text = $1, $2
             '[%s](/page/show/%s)' % [text, self.class.as_wiki_link(link)]
           end
-        end
+        #end
         with_links << line
       end
       with_links
