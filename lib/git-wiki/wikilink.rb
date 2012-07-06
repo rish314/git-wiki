@@ -8,7 +8,7 @@ module GitWiki
     #
     # To produce a code block in Markdown, simply indent every line of the block
     # by at least 4 spaces or 1 tab.
-    MARKDOWN_PRE = /^\ {4}|\t/
+    # MARKDOWN_PRE = /^\ {4}|\t/
   
     # Match [[Page]] or even [[a page]] just like in wikipedia and gollum
     GIT_WIKI_SIMPLE_LINK = /\[\[([\w\s\+\-\_\/]+)\]\]/
