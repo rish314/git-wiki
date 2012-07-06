@@ -36,11 +36,11 @@ module GitWiki
           # self.gsub!(/<\/?nowiki>/,'')
           line.gsub!(GIT_WIKI_SIMPLE_LINK) do
             link = $1
-            '[%s](/page/show/%s)' % [link, as_wiki_link(link)]
+            '[%s](/page/show/%s)' % [link, self.class.as_wiki_link(link)]
           end
           line.gsub!(GIT_WIKI_COMPLEX_LINK) do
             link, text = $1, $2
-            '[%s](/page/show/%s)' % [text, as_wiki_link(link)]
+            '[%s](/page/show/%s)' % [text, self.class.as_wiki_link(link)]
           end
         end
         with_links << line
