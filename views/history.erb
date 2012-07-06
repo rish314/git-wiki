@@ -1,24 +1,33 @@
-<article>
+<div class="row-fluid">
+  <div class="span10">
+    <article>
+      <div class="btn-group">
+        <button class="btn btn-mini" onclick="parent.location='/page/show/<%= @page.name %>'">current</button>
+        <button class="btn btn-mini" onclick="parent.location='/page/edit/<%= @page.name %>'">edit</button>
+      </div>
 
-  <nav role="article">
-    <a href="/page/show/<%= @page.name %>" class="nav_link">current</a> &bull;
-    <a href="/page/edit/<%= @page.name %>" class="nav_link">edit</a>
-  </nav>
+      <h1>History of <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
+      <ul>
+        <% last = @page.history.each { |c| c } %>
+        <% @page.history.each do |c| %>
+          <li>
+            <%= c.committer_date.time_ago_in_words %>
+            &mdash;
+            <a href="/page/commit/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
+            <% unless c == last %>
+              &bull; <a href="/page/diff/<%= @page.name %>/<%= c.sha %>">diff</a>
+            <% end %>
+          </li>
+        <% end %>
+      </ul> 
+    </article> 
+  </div>
+  <div class="span2">
+    <div class="well sidebar">
+     <aside>
+       <%= repo.current_branch %> branch
+     <aside>
+    </div><!--/.well -->
+  </div><!--/span-->
+</div><!--/row-->
 
-  <h1>History of <a href="/page/show/<%= @page.name %>"><%= @page.name %></a></h1>
-
-  <ul>
-  <% last = @page.history.each { |c| c } %>
-  <% @page.history.each do |c| %>
-    <li>
-      <img src="http://gravatar.com/avatar/<%= Digest::MD5.hexdigest(c.author.email.downcase) %>?s=12&d=identicon"/>
-      <%= c.committer_date.time_ago_in_words %>
-      &mdash;
-      <a href="/page/commit/<%= @page.name %>/<%= c.sha %>"><%= c.message %></a>
-      <% unless c == last %>
-        &bull; <a href="/page/diff/<%= @page.name %>/<%= c.sha %>">diff</a>
-      <% end %>
-    </li>
-  <% end %>
-  </ul>
-</article>
