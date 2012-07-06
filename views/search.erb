@@ -5,7 +5,7 @@
       <p><%= @grep.size %> pages contain match</p>
       <p><%= @grep.map { |g| g[1].size }.inject { |acc, n| acc + n } %> results</p>
     </section>
-    <p>Create <a href="/<%= @search.as_wiki_link %>"><%= @search %></a>.</p>
+    <p>Create <a href="/<%= GitWiki::WikiLink.as_wiki_link(@search) %>"><%= @search %></a>.</p>
   </aside>
 
   <% if @grep.empty? %>

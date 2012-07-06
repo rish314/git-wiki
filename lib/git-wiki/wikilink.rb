@@ -48,7 +48,7 @@ module GitWiki
       with_links
     end
   
-    def as_wiki_link(link)
+    def self.as_wiki_link(link)
       link.gsub(/\+/, ' plus ').gsub(/\*/, ' times ').gsub(/\s/, '_')
     end
   end
