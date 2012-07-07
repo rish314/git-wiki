@@ -28,6 +28,7 @@ function confirm_revert(sha) {
         <% @history.each do |commit| %>
           <tr>
             <td>
+              <button class="btn btn-mini btn-primary disabled">diff</button>
             <% if commit != @history.first %>
               <button class="btn btn-mini btn-danger" onclick="confirm_revert('<%= commit.sha %>')">revert</button>
             <% end %>
