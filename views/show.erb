@@ -2,11 +2,27 @@
   <div class="span10">
     <article>
       <div class="btn-group">
-        <button class="btn btn-mini<%= " disabled" if @page.rev %> btn-primary" onclick="parent.location='/page/edit/<%= @page.name %>'">edit</button>
+        <% unless @page.rev %>
+        <button class="btn btn-mini btn-primary" onclick="parent.location='/page/edit/<%= @page.name %>'">edit</button>
+        <% else %>
+        <button class="btn btn-mini disabled btn-primary">edit</button>
+        <% end %>
         <button class="btn btn-mini" onClick="parent.location='/page/history/<%= @page.name %>'">history</button>
-        <button class="btn btn-mini<%= " disabled" unless @page.previous_commit %>" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.previous_commit %>'">previous</a></button>
-        <button class="btn btn-mini<%= " disabled" unless @page.next_commit %>" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.next_commit %>'">next</a></button>
-        <button class="btn btn-mini<%= " disabled" unless @page.rev %>" onclick="parent.location='/page/show/<%= @page.name %>'">latest</a></button>
+        <% if @page.previous_commit %>
+        <button class="btn btn-mini" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.previous_commit %>'">previous</a></button>
+        <% else %>
+        <button class="btn btn-mini disabled">previous</a></button>
+        <% end %>
+        <% if @page.next_commit %>
+        <button class="btn btn-mini" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.next_commit %>'">next</a></button>
+        <% else %>
+        <button class="btn btn-mini disabled">next</a></button>
+        <% end %>
+        <% if @page.rev %>
+        <button class="btn btn-mini" onclick="parent.location='/page/show/<%= @page.name %>'">latest</a></button>
+        <% else %>
+        <button class="btn btn-mini disabled">latest</a></button>
+        <% end %>
       </div>
 
       <h1><%= @page.name.gsub('_', ' ') %></h1>
