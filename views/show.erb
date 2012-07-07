@@ -2,15 +2,13 @@
   <div class="span10">
     <article>
       <div class="btn-group">
-        <button class="btn btn-mini<%= " disabled" if params[:rev] %> btn-primary" onclick="parent.location='/page/edit/<%= @page.name %>'">edit</button>
+        <button class="btn btn-mini<%= " disabled" if @page.rev %> btn-primary" onclick="parent.location='/page/edit/<%= @page.name %>'">edit</button>
         <button class="btn btn-mini" onClick="parent.location='/page/history/<%= @page.name %>'">history</button>
         <button class="btn btn-mini<%= " disabled" unless @page.previous_commit %>" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.previous_commit %>'">previous</a></button>
         <button class="btn btn-mini<%= " disabled" unless @page.next_commit %>" onclick="parent.location='/page/commit/<%= @page.name %>/<%= @page.next_commit %>'">next</a></button>
-        <button class="btn btn-mini<%= " disabled" unless params[:rev] %>" onclick="parent.location='/page/show/<%= @page.name %>'">latest</a></button>
+        <button class="btn btn-mini<%= " disabled" unless @page.rev %>" onclick="parent.location='/page/show/<%= @page.name %>'">latest</a></button>
       </div>
 
-<!-- FIXME: params[:rev] appears busted --!>
-    
       <h1><%= @page.name.gsub('_', ' ') %></h1>
     
       <%= @page.body %>
