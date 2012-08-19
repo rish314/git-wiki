@@ -21,11 +21,7 @@
           <div class="attach-options">
             <a href="<%= file.delete_path %>">delete</a>
             &bull; <a href="<%= file.link_path %>">download</a>
-            <% if file.image? %>
-            &bull; <a href="#" onClick="$(edit_textarea).html($(edit_textarea).html() + '!<%= file.link_path %>!');">insert &#187;</a>
-            <% else %>
-            &bull; <a href="#" onClick="$(edit_textarea).html($(edit_textarea).html() + '[<%= file.name %>](<%= file.link_path %>)');">insert &#187;</a>
-            <% end %>
+            &bull; <a href="#" onClick="$('#edit_textarea').val($('#edit_textarea').val() + '\n<%= file.to_markdown(file.name) %>');">insert &#187;</a>
           </div>
         </span>
       <% end %>
@@ -37,13 +33,13 @@
           <div class="control-group">
            <!-- <label class="control-label" for="textarea">Body</label> --!>
             <div class="controls; margin-left: 0px">
-              <textarea class="span11" id="textarea" rows="33" name="body"><%= @page.raw_body %></textarea>
+              <textarea class="span11" id="edit_textarea" rows="33" name="body"><%= @page.raw_body %></textarea>
             </div>
           </div>
           <div class="control-group">
           <!--  <label class="control-label" for="textarea">Message</label> --!>
             <div class="controls; margin-left: 0px">
-              <textarea class="span11" id="textarea" rows="4" name="message"></textarea>
+              <textarea class="span11" id="commitmsg_textarea" rows="4" name="message"></textarea>
             </div>
           </div>
           <div class="form-actions; padding-left: 0px">

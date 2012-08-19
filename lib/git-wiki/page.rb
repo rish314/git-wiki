@@ -174,6 +174,11 @@ class Page
       File.join('/_attachment', @page_name, name)
     end
 
+    def to_markdown(alt = nil)
+      link_tag = "[#{alt}](#{link_path})"
+      image? ? "!#{link_tag}" : link_tag
+    end
+
     def delete_path
       File.join('/a/file/delete', @page_name, name)
     end
