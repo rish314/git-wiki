@@ -84,7 +84,8 @@ module GitWiki
     
     get '/page/raw/*' do |page|
       @page = Page.new(page)
-      send_data @page.raw_body, :type => 'text/plain', :disposition => 'inline'
+      content_type 'text/plain'
+      @page.raw_body
     end
     
 #    get '/:page/append' do

@@ -39,7 +39,8 @@
               <li><a href="/repo/branches">branches</a></li>
               <li><a href="/repo/history">history</a></li>
               <li><a href="/repo/list">pages</a></li>
-              <li><a href="/repo/tarball">export</a></li>
+              <li><a href="javascript:void(0);" onClick="var ok=confirm('Are you sure you want to export?');
+              if (ok) location.href='/repo/tarball'; return false;">export</a></li>
             </ul>
             <form method="get" action="/search" class="navbar-search pull-right">  
               <input type="search" id="search_field" name="search" class="search-query" placeholder="Search"/>
