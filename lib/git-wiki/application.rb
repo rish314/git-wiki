@@ -26,7 +26,11 @@ module GitWiki
 
     register Sinatra::Flash
 
-    helpers Sinatra::ContentFor
+    helpers do
+      include Sinatra::ContentFor
+      include Rack::Utils
+      alias_method :h, :escape_html
+    end
 
     #
     # start of user auth (needs to be modularized now)

@@ -33,7 +33,7 @@
           <div class="control-group">
            <!-- <label class="control-label" for="textarea">Body</label> --!>
             <div class="controls; margin-left: 0px">
-              <textarea class="span11" id="edit_textarea" rows="33" name="body"><%= @page.raw_body %></textarea>
+              <textarea class="span11" id="edit_textarea" rows="33" name="body"><%=h @page.raw_body %></textarea>
             </div>
           </div>
           <div class="control-group">
