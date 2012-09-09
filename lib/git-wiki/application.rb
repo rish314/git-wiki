@@ -243,26 +243,29 @@ module GitWiki
     
     # file upload attachments
     
-    get '/a/file/upload/:page' do
-      @page = Page.new(params[:page])
+    get '/a/file/upload/*' do |page|
+      @page = Page.new(page)
       show :attach, 'Attach File for ' + @page.name
     end
     
-    post '/a/file/upload/:page' do
-      @page = Page.new(params[:page])
+    post '/a/file/upload/*' do |page|
+      @page = Page.new(page)
       @page.save_file(params[:file], params[:name])
       redirect '/page/edit/' + @page.name
     end
     
-    get '/a/file/delete/:page/:file.:ext' do
-      @page = Page.new(params[:page])
-      @page.delete_file(params[:file] + '.' + params[:ext])
+    get '/a/file/delete/*' do |arg|
+      splat = arg.split(/([\w\s-]+)\.(\w+)$/)
+      page = splat.first.gsub(/\/$/, "")
+      file = splat[1..2].join('.')
+      @page = Page.new(page)
+      @page.delete_file(file)
       redirect '/page/edit/' + @page.name
     end
     
-    get '/_attachment/:page/:file.:ext' do
-      @page = Page.new(params[:page])
-      send_file(File.join(@page.attach_dir, params[:file] + '.' + params[:ext]))
+    get '/_attachment/*/*.*' do |page, file, ext|
+      @page = Page.new(page)
+      send_file(File.join(@page.attach_dir, "#{file}.#{ext}"))
     end
     
     # support methods
