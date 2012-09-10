@@ -61,7 +61,10 @@ module GitWiki
 
     donotsave_paths = %w{ /logout /favicon.png /favicon.ico }
     before do
-      unless request.path == "/login"
+      path = request.path
+      if path =~ /\// or path =~ /\/page\/.*/ or path =~ /\/_attachment\/.*/ or path =~ /\/search(.*)/
+
+      elsif request.path != "/login"
         unless session[:username]
           session[:saved_path] = request.path
           session[:saved_path] = "/" if donotsave_paths.include?(request.path)
